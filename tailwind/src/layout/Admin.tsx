@@ -15,11 +15,11 @@ function Admin() {
       <Routes>
         {routes.map((item, index) => {
           return (
-            <Route path={item.path} element={item.component} key={index} />
+           <Route path={item.path} element={item.component} key={index} />
           );
         })}
-        
-        <Route path={"/oauth2/redirect"}  element={<OAuthLogin/>}/>
+        <Route path={"/"}  element={<Dashboard/>}/>
+        {/* <Route path={"/oauth2/redirect"}  element={<OAuthLogin/>}/> */}
       </Routes>
     </div>
   );

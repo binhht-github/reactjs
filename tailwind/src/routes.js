@@ -13,6 +13,13 @@ import SmsIcon from "@mui/icons-material/Sms";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 
 var routes = [
+  // {
+  //   path: "/",
+  //   name: "Dashboard",
+  //   icon: <HomeIcon sx={{ color: "#ffffff" }} />,
+  //   component: <Dashboard />,
+  //   layout: "/admin",
+  // },
   {
     path: "/dashboard",
     name: "Dashboard",
