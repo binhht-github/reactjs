@@ -11,11 +11,11 @@ function Dashboard() {
                   username:"admin",
                   password:"admin"
                 }
-    axios.post(`http://localhost:8080/login`,data,config)
+    axios.post(`http://localhost:8080/login`,data)
     .then((res:any)=>{
-      console.log('aaaa');
+      localStorage.setItem("Authorization",res.data)
+      console.log("Author ",res.data);
       
-      console.log(res.headers);
       
     })
     .catch(
@@ -24,7 +24,10 @@ function Dashboard() {
   }
 
   const check2 = ()=>{
-    axios.get(`http://localhost:8080/phong-ban/all`)
+    let config = {
+      headers: {"Authorization": localStorage.getItem("Authorization")}
+    }
+    axios.get(`http://localhost:8080/phong-ban/all`,config)
     .then((res:any)=>{
       
       console.log(res.data);
@@ -44,6 +47,7 @@ function Dashboard() {
         
       }}>show log</button>
       <button onClick={()=>{ check()}} className="bg-white ml-10">check api</button>
+      <button onClick={()=>{ check2()}} className="bg-white ml-10">check api 2</button>
 
     </div>
   );
