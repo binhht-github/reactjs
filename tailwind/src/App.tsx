@@ -11,7 +11,8 @@ const clientId ="273237233987-e7c29htmqjlk9cd406dftpbuo3hq0gva.apps.googleuserco
 const clientId2 ="595764836675-olh5ve4ig2l0snd2lo2u4dkipiqgvo0t.apps.googleusercontent.com"
 
 function App() {
-  const [logined, setLogined] = useState(false);
+  const [logined, setLogined] = useState(sessionStorage.getItem("currentUser") == null ? false : true);
+  // const [logined, setLogined] = useState(false);
   const actionLogin = (state : boolean)=>{
     setLogined(state)
     console.log(localStorage);
@@ -21,6 +22,7 @@ function App() {
   }
   return (
     <div className="h-screen w-full bg-[#EFF2F4]">
+      {/* <button onClick={()=>{console.log(sessionStorage.getItem("currentUser"));}}>show logs</button> */}
       {!logined ?  
         <Login actionLogin={actionLogin} />
          :
