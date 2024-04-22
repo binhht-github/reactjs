@@ -35,7 +35,7 @@ function OAuthLogin(props:dataFormProps) {
       name:decoded.name,
       avt:decoded.picture
     }
-    localStorage.setItem("token",token)
+    localStorage.setItem("accessToken",token)
     sessionStorage.setItem("currentUser",JSON.stringify(currentUser))
     props.actionLogin(true)
     

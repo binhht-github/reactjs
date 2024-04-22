@@ -1,39 +1,42 @@
-import React, { useState } from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import Admin from './layout/Admin';
-import OAuthLogout from './components/login/OAuthLogout';
-import OAuthLogin from './components/login/OAuthLogin';
-import { GoogleOAuthProvider } from '@react-oauth/google';
+import { Navigate, Route, Routes, redirect } from 'react-router-dom';
 import Login from './components/login/Login';
+import Log from './components/login/Log';
+import { ACCESS_TOKEN } from './utils/enum';
+import { getCurrentUser } from './utils/APIUtils';
 
-const clientId ="273237233987-e7c29htmqjlk9cd406dftpbuo3hq0gva.apps.googleusercontent.com"
-const clientId2 ="595764836675-olh5ve4ig2l0snd2lo2u4dkipiqgvo0t.apps.googleusercontent.com"
+
 
 function App() {
-  const [logined, setLogined] = useState(sessionStorage.getItem("currentUser") == null ? false : true);
-  // const [logined, setLogined] = useState(false);
-  const actionLogin = (state : boolean)=>{
-    setLogined(state)
-    console.log(localStorage);
-    console.log(sessionStorage);
+  const [authenticated, setAuthenticated] = useState(false); //!localStorage.getItem(ACCESS_TOKEN) ? false : true
+ 
+  getCurrentUser().then((res:any)=>{
+    console.log(res.data);
+    setAuthenticated(!localStorage.getItem(ACCESS_TOKEN) ? false : true);
+    sessionStorage.setItem("currentUser",JSON.stringify(res.data))
+  }).catch(
+    (e:any)=>{console.log(e);
+  })
+
+  useEffect(()=>{
     
-    
-  }
+  },[authenticated])
+
+
+  
   return (
     <div className="h-screen w-full bg-[#EFF2F4]">
-      {/* <button onClick={()=>{console.log(sessionStorage.getItem("currentUser"));}}>show logs</button> */}
-      {!logined ?  
-        <Login actionLogin={actionLogin} />
-         :
 
-        <Admin />
+        {/* {authenticated ? (
+          <Admin/>
+        ):(
+          <Log></Log>
+        )} */}
 
-        // <GoogleOAuthProvider clientId={clientId2}>
-        //             <OAuthLogin  />
-        //         </GoogleOAuthProvider> 
-      }
-    {/* <OAuthLogout/> */}
+        <Admin/>
+
     </div>
   );
 }

@@ -2,7 +2,7 @@ import React from "react";
 
 function Post() {
   return (
-    <div>
+    <div className="h-screen w-[calc(100%-240px)] flex">
       <h1>Post</h1>
     </div>
   );

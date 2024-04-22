@@ -30,12 +30,12 @@ function WorkList({id,name}:workListProp) {
   };
 
   return (
-    <div className="ml-3 mt-4 h-fit  w-72  rounded-xl bg-[#111111]  p-4">
+    <div className="ml-3 mt-4 h-fit  w-64  rounded-xl bg-[#f4f2f2]  p-4">
       <div className="relative mb-2 flex h-8  w-full items-center justify-between">
-        <h2 className="text-[#ffffff] w-[calc(100%-50px)]">{name}</h2>
+        <h2 className="text-[#333] w-[calc(100%-50px)] font-medium">{name}</h2>
         <>
           <button
-            className="rounded px-6 py-3 text-sm font-bold uppercase text-white shadow outline-none transition-all duration-150 ease-linear hover:bg-[#333] hover:shadow-lg focus:outline-none active:bg-[#5e5e5e]"
+            className="rounded px-6 py-3 text-sm font-bold uppercase  shadow outline-none transition-all duration-150 ease-linear hover:bg-[#333] hover:shadow-lg focus:outline-none active:bg-[#5e5e5e]"
             type="button"
             onClick={() => setShowModal(true)}
           >
@@ -45,7 +45,7 @@ function WorkList({id,name}:workListProp) {
             <>
               <div className=" absolute -top-4 left-72 z-50 flex h-72 w-48 flex-col items-center justify-between overflow-y-auto overflow-x-hidden rounded-lg bg-[#292929] p-4 outline-none focus:outline-none">
                 <div>
-                  <label htmlFor="Thao Tác" className="text-white">
+                  <label htmlFor="Thao Tác" className="text-black">
                     Thao Tác
                   </label>
                 </div>
@@ -64,7 +64,7 @@ function WorkList({id,name}:workListProp) {
               </div>
 
               <div
-                className="fixed inset-0 z-40 bg-black opacity-25"
+                className="fixed inset-0 z-40 bg-[#ffffff] opacity-25"
                 onClick={() => setShowModal(false)}
               ></div>
             </>
@@ -82,7 +82,7 @@ function WorkList({id,name}:workListProp) {
         {!isOpenTextArea ? (
       <div
       onClick={()=>{setIsOpenTextArea(true)}}
-        className="mt-2 min-h-10 w-full cursor-pointer rounded-lg bg-[#313131] pl-3 pt-2 hover:bg-[#757474]"
+        className="mt-2 min-h-10 w-full cursor-pointer rounded-lg  pl-3 pt-2 hover:bg-[#ffffff]"
       >
         <label
           htmlFor="The Lam Viec"
@@ -93,10 +93,10 @@ function WorkList({id,name}:workListProp) {
       </div>
         ):(
       <div
-          className="flex h-fit w-full flex-col rounded-lg bg-[#0a0a0a] bg-opacity-0 p-2"
+          className="flex h-fit w-full flex-col rounded-lg bg-[#f4f2f2] bg-opacity-0 p-2"
         >
           <div className="w-full h-fit">
-            <TextareaAutosize value={textAreaValue} onChange={(e)=>{setTextAreaValue(e.target.value)}}  name="" className="px-2 rounded-lg bg-[#313131]  text-white resize-none w-full overflow-hidden min-h-7 " id="" cols={1} ></TextareaAutosize>
+            <TextareaAutosize value={textAreaValue} onChange={(e)=>{setTextAreaValue(e.target.value)}}  name="" className="px-2 rounded-lg bg-[#ffffff]   resize-none w-full overflow-hidden min-h-7 " id="" cols={1} ></TextareaAutosize>
           </div>
           <div className="w-full h-12 flex  ">
             <button onClick={()=>{addCardHandle()}} className="w-auto m-2 px-2 active:bg-[#b6c6d6] text-white  rounded-md bg-[#3e5da0] hover:bg-[#6c7e96]">Them The</button>

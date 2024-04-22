@@ -2,7 +2,7 @@ import React from "react";
 
 function Imgage() {
   return (
-    <div>
+    <div className="h-screen w-[calc(100%-240px)] flex">
       <h1>Images</h1>
     </div>
   );

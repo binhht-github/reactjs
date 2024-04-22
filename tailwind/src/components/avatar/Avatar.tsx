@@ -16,7 +16,7 @@ export const Avatar: React.FC<avtProps> = ({ size, url }: avtProps) => {
       <img
         width={`${size}px`}
         height={`${size}px`}
-        src={`${url}`}
+        src={`${url ? url : "https://png.pngtree.com/element_our/20200610/ourmid/pngtree-character-default-avatar-image_2237203.jpg"}`}
         alt=""
         style={{
           borderRadius: "100%",

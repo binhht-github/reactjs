@@ -3,7 +3,14 @@ import { Avatar } from "../avatar/Avatar";
 import MenuIcon from "@mui/icons-material/Menu";
 import FilterListIcon from "@mui/icons-material/FilterList";
 
-function NavBoard() {
+
+
+interface prop  {
+  projectId: number,
+  projectName : string,
+}
+
+function NavBoard(props:prop) {
   const [avt, setAvt] = useState([
     "https://i.pinimg.com/736x/2c/d8/a7/2cd8a74b799243e32d4ee504771a82d0.jpg",
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYrep2Ye25MojZvZG2OsW0VbCOX91ALTvEq1cK_9kZ_eUi4TMX0R2fc5YcxEqcyiUOEWs&usqp=CAU",
@@ -11,12 +18,12 @@ function NavBoard() {
     "https://ngoaingutomato.edu.vn/Data/images/hinh-anh-co-gai-cute-anime.jpeg",
   ]);
   return (
-    <div className="flex h-12 w-full items-center justify-between bg-[black] bg-opacity-30">
+    <div className="flex h-12 w-full items-center justify-between bg-[black] bg-opacity-50">
       <div className="flex h-full items-center  ">
         <div className="pl-4">
           {/* <input type="text" className="bg bg-opacity-0" /> */}
           <h1 className="w-auto font-bold text-[#ffffff]">
-            Ten Khong Gian Lam Viec
+            {props.projectName}
           </h1>
         </div>
       </div>

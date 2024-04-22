@@ -1,21 +1,63 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import WorkList from "./WorkList";
 import { TextareaAutosize } from "@mui/material";
+import { useOutsideClick } from "./testRef";
+import { useOutsideAlerter } from "./test2";
 
-interface workItem {
-  id: string;
-  name: string;
+
+interface workSpaceTemplate {
+  idSpace:number,
+  nameSpace:string
 }
 
-function WorkSpace() {
-  const [listWork, setListWork] = useState<workItem[]>([]);
+
+interface workListTemplate {
+  id: string;
+  name: string;
+  spaceId:number
+}
+
+
+const EX = [
+  {
+    id:"1",
+    name:"cần làm",
+    spaceId:1
+  },
+  {
+    id:"2",
+    name:"đang làm",
+    spaceId:1
+  },
+  {
+    id:"3",
+    name:"đã làm",
+    spaceId:1
+  }
+]
+
+function WorkSpace({idSpace,nameSpace}:workSpaceTemplate) {
+  console.log(idSpace + " ",nameSpace);
+  
+  const [listWork, setListWork] = useState<workListTemplate[]>(EX);
   const [textAreaValue,setTextAreaValue] = useState<string>("");
   const [isOpenTextArea,setIsOpenTextArea] = useState<boolean>(false);
+  
+  const ref = useOutsideClick(() => {
+    setIsOpenTextArea(false)
+  });
+
+
+  const wrapperRef = useRef(null);
+  useOutsideAlerter(wrapperRef);
+
+
 
   const addWorkHandle = () => {
     let obj = {
       id: "1",
       name: textAreaValue,
+      spaceId:1
     };
     setListWork((preWork) => [...preWork, obj]);
     setTextAreaValue("");
@@ -26,17 +68,17 @@ function WorkSpace() {
   }
 
   return (
-    <div className=" h-[calc(100%-48px)] w-full overflow-y-auto">
+    <div className=" h-[calc(100%-48px)] w-full overflow-y-auto "  >
 
-      <div className=" flex h-full w-fit ">
+      <div className=" flex h-full w-fit " ref={ref}>
         {listWork.map((item, index) => {
-          return <WorkList key={index} id={item.id} name={item.name} />;
+          return item.spaceId == idSpace ?  <WorkList key={index} id={item.id} name={item.name} /> : null
         })}
-
+ 
         {!isOpenTextArea ?(
-        <div
+        <div 
           onClick={()=>{setIsOpenTextArea(true)}}
-          className="m-4 flex h-10 w-72 cursor-pointer items-center rounded-lg bg-[#d3d3d3] bg-opacity-25 pl-4 hover:bg-opacity-5"
+          className="m-4 flex h-10 w-64 cursor-pointer items-center rounded-lg bg-[white] bg-opacity-55 pl-4 hover:bg-opacity-5"
         >
           <label htmlFor="" className="cursor-pointer font-bold text-[#ffffff]">
             + Thêm danh sách khác
@@ -44,14 +86,14 @@ function WorkSpace() {
         </div>
         ) : (
         <div
-          className="m-4 flex h-fit w-72 flex-col rounded-lg bg-[#0a0a0a] bg-opacity-90 p-2"
+          className="m-4 flex h-fit w-72 flex-col rounded-lg bg-[#f4f2f2] bg-opacity-90 p-2"
         >
           <div className="w-full h-fit p-1">
-            <TextareaAutosize  value={textAreaValue} onChange={(e)=>{setTextAreaValue(e.target.value)}}  name="" className=" bg-[#2c54c279]  text-white resize-none w-full overflow-hidden min-h-7 " id="" cols={1} ></TextareaAutosize>
+            <TextareaAutosize  value={textAreaValue} onChange={(e)=>{setTextAreaValue(e.target.value)}}  name="" className="resize-none w-full overflow-hidden min-h-7 " id="" cols={1} ></TextareaAutosize>
           </div>
           <div className="w-full h-12 flex  ">
-            <button onClick={()=>{addWorkHandle()}} className="w-auto m-2 px-2 active:bg-[#b6c6d6] text-white  rounded-md bg-[#3e5da0] hover:bg-[#6c7e96]">Them danh sach</button>
-            <button className="text-[#aaa] font-bold" onClick={()=>{setIsOpenTextArea(false)}}>X</button>
+            <button onClick={()=>{addWorkHandle()}} className="w-auto m-2 px-2 active:bg-[#b6c6d6] text-[#333] font-medium rounded-md hover:bg-[#ffffff]">Thêm danh sách</button>
+            {/* <button className="text-[#aaa] font-bold" onClick={()=>{setIsOpenTextArea(false)}}>X</button> */}
           </div>
         </div>
         )}

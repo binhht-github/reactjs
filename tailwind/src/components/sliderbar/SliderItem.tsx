@@ -6,6 +6,9 @@ interface sliderProps {
   title: string;
   icon: ReactNode;
   textColor: string;
+  isActive: boolean;
+  setActive:Function;
+  index: Number;
 }
 
 export const SliderItem: React.FC<sliderProps> = ({
@@ -13,12 +16,17 @@ export const SliderItem: React.FC<sliderProps> = ({
   title,
   icon,
   textColor,
+  isActive,
+  setActive,
+  index
 }: sliderProps) => {
+
+  
   return (
-    <NavLink to={`${path}`} style={{ textDecoration: "none" }}>
-      <div className="mb-1 mt-1 flex h-8 w-full  cursor-pointer items-center space-x-3 pl-2 pr-2 active:bg-indigo-100 active:text-indigo-500">
+    <NavLink to={`${path}`} style={{ textDecoration: "none" }}  onClick={()=>{setActive(index)}}>
+      <div className={ ` ${isActive ? 'bg-[#4885e0] ': ""} rounded-lg  my-5 flex h-auto w-full py-2  cursor-pointer items-center space-x-3 pl-2 pr-2 active:bg-indigo-100 active:text-indigo-500`}>
         {icon}
-        <label htmlFor={`${title}`} className={`text-[${textColor}]`}>
+        <label htmlFor={`${title}`} className={`text-[${textColor}] cursor-pointer`}>
           {title}
         </label>
       </div>
