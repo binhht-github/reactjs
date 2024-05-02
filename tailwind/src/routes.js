@@ -81,7 +81,7 @@ export var routers =[
     name: "User Managerment",
     icon: <ManageAccountsIcon sx={{ color: "#333" }} />,
     component: <UserManagement />,
-    role:["GD"],
+    role:["GD","NV"],
     layout: "/admin",
   },
   {

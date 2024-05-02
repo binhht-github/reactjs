@@ -1,13 +1,36 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Avatar } from "../avatar/Avatar";
 import MenuIcon from "@mui/icons-material/Menu";
 import FilterListIcon from "@mui/icons-material/FilterList";
+import { getAllNhanVienByProject } from "../../api/NhanVienApi";
 
 
 
 interface prop  {
   projectId: number,
   projectName : string,
+}
+
+
+interface INhanVien{
+  "anh":string,
+  "cccd":string,
+  "chucvu":string,
+  "createDate":string,
+  "creator":string,
+  "cv":string,
+  "deleted":string,
+  "diaChi":string,
+  "email":string,
+  "gioiTinh":string,
+  "heSoLuong":string,
+  "hoTen":string,
+  "luongCoBan":string,
+  "maNhanVien":string,
+  "username":string,
+  "ngaySinh":string,
+  "phongban":string,
+  "sdt":string,
 }
 
 function NavBoard(props:prop) {
@@ -17,6 +40,19 @@ function NavBoard(props:prop) {
     "https://upload.wikimedia.org/wikipedia/vi/c/c1/Nh%C3%A2n_v%E1%BA%ADt_v%E1%BA%BD_theo_phong_c%C3%A1ch_anime_-_manga_%C4%91%C6%B0%E1%BB%A3c_t%E1%BA%A1o_t%E1%BB%B1_%C4%91%E1%BB%99ng_b%E1%BB%9Fi_AI_%282%29.jpeg",
     "https://ngoaingutomato.edu.vn/Data/images/hinh-anh-co-gai-cute-anime.jpeg",
   ]);
+
+  const [nhanvien,setNhanvien] = useState<INhanVien[]>([])
+
+
+
+  useEffect(()=>{
+    getAllNhanVienByProject(props.projectId+"").then((res)=>{
+      setNhanvien(res);
+      console.log(res);
+      
+    })
+  },[props.projectId])
+
   return (
     <div className="flex h-12 w-full items-center justify-between bg-[black] bg-opacity-50">
       <div className="flex h-full items-center  ">
@@ -32,12 +68,12 @@ function NavBoard(props:prop) {
           <MenuIcon style={{ color: "white" }} />
         </div>
         <div className="flex flex-row-reverse p-2">
-          {avt.map((item, index) => {
+          {nhanvien.map((item, index) => {
             // index > 0;
             return (
               <div className={index > 0 ? "" : ""} key={index}>
                 {/* <span className="text-[white]">{index}</span> */}
-                <Avatar size={30} url={item} />
+                <Avatar size={30} url={item.anh} />
               </div>
             );
           })}

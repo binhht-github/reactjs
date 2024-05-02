@@ -1,20 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NavBoard from "../components/board/NavBoard";
-import WorkSpace from "../components/board/WorkSpace";
+import ColumnSpace from "../components/board/ColumnSpace";
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
+import { getProject } from "../api/ProjectApi";
 
 
 interface prtemplate {
-  id:number,
-  name:string
+  id: number,
+  projectName: string,
+  createDate: string,
+  listUser: [],
+  createUser: string
+}
+
+interface restmp {
+  success: boolean,
+  data :prtemplate[],
 }
 
 function Board() {
-  const [isActiveBoard, setIsActiveBoard] = useState(false);
+  const [isActiveBoard, setIsActiveBoard] = useState(true);
 
   
   const  pr = [
@@ -34,11 +43,28 @@ function Board() {
       name: "ho tro tai chinh abc"
     }
   ]
-  const [projects, setProjects] = useState(pr);
+  const [projects, setProjects] = useState<prtemplate[]>([]);
 
-  const [project, setProject] = useState<prtemplate>({id:0,
-    name: ""
+  const [project, setProject] = useState<prtemplate>(
+    {
+      id:0,
+      projectName: "",
+      createDate: "",
+      listUser: [],
+      createUser: ""
   });
+
+  useEffect(()=>{
+    getProject()
+    .then((res)=>{
+      if(res){
+        setProjects(res)
+      }
+      // console.log(res.data);
+    })
+    .catch((e)=>{console.log(e);
+    })
+  },[])
 
   return (
     <div className="h-screen w-[calc(100%-240px)] flex">
@@ -49,15 +75,15 @@ function Board() {
             </div>
             <hr />
             <ul className="text-white p-2 [&>li]:cursor-pointer w-full [&>li]:pl-6 [&>li]:py-2 mt-4"><BusinessCenterIcon className="mr-2" />project information
-              <li className="">Ganeral Informaiton</li>
+              <li>Ganeral Informaiton</li>
               <li>Member</li>
               <li>Position</li>
             </ul>
             <ul className="text-white   [&>li]:pl-6 [&>li]:py-2 cursor-pointer mt-4">
-              <div onClick={()=>{setProject({id:0,name: ""})}}><AccountTreeIcon className="mr-2" /> Board List</div>
+              <div onClick={()=>{}}><AccountTreeIcon className="mr-2" /> Board List</div>
               {projects.map((item, index) => {
                 return (
-                  <li onClick={() => { setProject(item) }}>  {item.name}</li>
+                  <li key={index} onClick={() => { setProject(item) }}>  {item.projectName}</li>
                 )
               })}
             </ul>
@@ -71,11 +97,11 @@ function Board() {
           </div>
         </div>
       </div>
-      <div className="w-full">
+      <div className={`${isActiveBoard? " w-[calc(100%-208px)]":" w-[calc(100%-4px)]"}`}>
         {project.id == 0 ? null :
           (<>
-            <NavBoard projectId={project.id} projectName={project.name} />
-            <WorkSpace idSpace={project.id} nameSpace={project.name}/>
+            <NavBoard projectId={project.id} projectName={project.projectName} />
+            <ColumnSpace idSpace={project.id} nameSpace={project.projectName} />
           </>
           )}
       </div>
