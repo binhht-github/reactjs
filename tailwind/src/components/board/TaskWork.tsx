@@ -115,6 +115,8 @@ function TaskWork({ taskID }: Iprops) {
             }
         })
     }
+    console.log(listWorks);
+    
 
 
 
@@ -131,9 +133,9 @@ function TaskWork({ taskID }: Iprops) {
             {listWorks.length > 0 ? listWorks.map((item, index) => {
 
                 return (
-                    <div key={index} className='relative flex justify-between'>
+                    <div key={item.taskWorkId} className='relative flex justify-between'>
                         <div>
-                        <input type="checkbox" defaultChecked={item.status} onChange={() => { handleUpadteStatus(item.taskWorkId) }} className='absolute top-1.5 -left-7 cursor-pointer' />
+                        <input type="checkbox" defaultChecked={item.status ? true : false} onChange={() => { handleUpadteStatus(item.taskWorkId) }} className='absolute top-1.5 -left-7 cursor-pointer' />
                         <label htmlFor="" >{item.taskWorkName}</label>
                         
                         </div>

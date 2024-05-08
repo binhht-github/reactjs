@@ -16,6 +16,7 @@ function App() {
     const token = searchParams.get("token");
     if(token){
       localStorage.setItem(ACCESS_TOKEN, token+"");
+      window.location.href = '/'
     }
     getCurrentUser().then((res:any)=>{
       console.log(localStorage.getItem(ACCESS_TOKEN));
@@ -23,16 +24,16 @@ function App() {
       sessionStorage.setItem("currentUser",JSON.stringify(res.data))
     })
     .catch((e:any)=>{
-        setAuthenticated(false);
+      setAuthenticated(false);
         sessionStorage.clear()
     })
   },[])
-
   
   return (
     <div className="h-screen w-full bg-[#EFF2F4]">
 
         {authenticated ? (
+          // <h1>hihi</h1>
           <Admin/>
         ):(
           <Login />

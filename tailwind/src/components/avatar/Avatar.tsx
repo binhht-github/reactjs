@@ -1,4 +1,5 @@
 import React from "react";
+import { baseUrl } from "../../api/config";
 
 interface avtProps {
   size: Number;

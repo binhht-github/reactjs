@@ -25,9 +25,11 @@ export const createRequest = (baseUrl: string, timeout: number) => {
             const joinCharacter = url.includes('?') ? '&' : '?'
             return `${url}${joinCharacter}timestamp=${Date.now()}`
         }
+        // const formData = new FormData();
+        // formData.append('file', file); // file là biến chứa tệp bạn muốn tải lên
 
         const headers = {
-            Accept: 'application/json',
+            'Accept': 'application/json',
             'Content-Type': 'application/json',
         }
         // @ts-ignore
@@ -64,12 +66,42 @@ export const createRequest = (baseUrl: string, timeout: number) => {
                 data?: any,
                 options: AxiosRequestConfig = {}
             ) => {
+                console.log("hello");
+
+                console.log(url);
+                console.log(data);
+                console.log(options);
+
+
+
                 return axios.post<T, R>(url, data, {
                     ...defaultOptions,
                     ...options,
                     headers: {
                         ...defaultOptions.headers,
                         ...options?.headers,
+                    },
+                })
+            },
+            postFile: <T = any, R = AxiosResponse<T>>(
+                url: string,
+                data?: any,
+                options: AxiosRequestConfig = {}
+            ) => {
+                console.log(url);
+                console.log(data);
+                console.log(options);
+
+
+
+                return axios.post<T, R>(url, data, {
+                    ...defaultOptions,
+                    // ...options,
+                    headers: {
+                        // ...defaultOptions.headers,
+                        // ...options?.headers,
+                        'Content-Type': 'multipart/form-data',
+                        'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0aGlsYnQxMzM5NEBnbWFpbC5jb20iLCJpYXQiOjE3MTQ3MDQzNTIsImV4cCI6MTcxNTMwOTE1Mn0.lKmaFyTJW5-rcDhDXwRN1MNK0ff8TvP8JIAP-FgMTJzUWR6dzlypJ1Hp7Wsg-8LGzQ9LW5ueDxhew-B6iVECgg'
                     },
                 })
             },

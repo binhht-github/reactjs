@@ -19,6 +19,8 @@ class OAuth2RedirectHandler extends Component {
 
     if (token) {
       localStorage.setItem(ACCESS_TOKEN, token);
+      console.log(localStorage.getItem(ACCESS_TOKEN, token));
+
       return (
         <Redirect
           to={{

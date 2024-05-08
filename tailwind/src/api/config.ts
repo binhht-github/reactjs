@@ -22,19 +22,27 @@ export const APIs = {
     N_ALL: "/nhan-vien/all",
     N_GETBYPROJECT: "/nhanviens/project",
     N_CREATE: "/nhan-vien/create",
+    N_UPDATE: "/repalce-nhanVien",
+    N_DELETE: "/nhan-vien/delete",
     N_TOTAL: "/nhanviens/page-total",
 
     /** API Chuc Vu */
     CV_GETALL: "/chuc-vu/all",
+    CV_CREATE: "/chuc-vu/create",
+    CV_UPDATE: "/chuc-vu/update",
 
     /** API Phong Ban */
     PB_GETALL: "/phong-ban/all",
+    PB_CREATE: "/phong-ban/create",
+    PB_UPDATE: "phong-ban/update",
+    PB_DELETE: "phong-ban/update",
 
     /** API PROJECT */
     P_GETBYPAGE: "/user/me",
     P_GETALLBYYUSER: "/project/all-by-user",
     P_GETALL: "/project/all",
     P_PAGESIZE: "/user/me",
+    P_CREATE: "/project/create",
 
 
     // API Column
@@ -51,8 +59,10 @@ export const APIs = {
 
     T_CREATENEWTASKWORK: "/task-work/create-new",
     T_GETALLTASKWORKBYTASKID: "/task-work/all-by-task",
-    T_UPDATESTATUSTASKWORK: "/task-work/delete-work",
-    T_DELETETASKWORK: "/task-work/update-work",
+    T_UPDATESTATUSTASKWORK: "/task-work/update-work",
+    T_DELETETASKWORK: "/task-work/delete-work",
 
-
+    /** Files */
+    F_UPLOAD: "/uploadFile",
+    F_DOWNLOAD: "/downloadFile"
 }

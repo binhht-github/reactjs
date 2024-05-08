@@ -19,3 +19,61 @@ export const getPhongBan = async () => {
         return handleError(e)
     }
 }
+
+export const createPhongBan = async (maPhongBan: string,
+    tenPhongBan: string,
+    moTa: string,
+    truongPhong: string,
+    type: string) => {
+    try {
+        const result = await request().post(APIs.PB_CREATE, {
+            maPhongBan: maPhongBan,
+            tenPhongBan: tenPhongBan,
+            moTa: moTa,
+            truongPhong: truongPhong,
+            type: "user"
+        })
+        const { data } = result
+        return data;
+    } catch (e) {
+        return handleError(e)
+    }
+}
+export const updatePhongBan = async (maPhongBan: string,
+    tenPhongBan: string,
+    moTa: string,
+    truongPhong: string,
+    type: string) => {
+    try {
+        const result = await request().post(APIs.PB_UPDATE, {
+            maPhongBan: maPhongBan,
+            tenPhongBan: tenPhongBan,
+            moTa: moTa,
+            truongPhong: truongPhong,
+            type: "user"
+        })
+        const { data } = result
+        return data;
+    } catch (e) {
+        return handleError(e)
+    }
+}
+export const deletePhongBan = async (maPhongBan: string,
+    tenPhongBan: string,
+    moTa: string,
+    truongPhong: string,
+    type: string) => {
+    try {
+        const result = await request().post(APIs.PB_DELETE, {
+            maPhongBan: maPhongBan,
+            tenPhongBan: tenPhongBan,
+            moTa: moTa,
+            truongPhong: truongPhong,
+            type: "user"
+        })
+        const { data } = result
+        return data;
+    } catch (e) {
+        return handleError(e)
+    }
+}

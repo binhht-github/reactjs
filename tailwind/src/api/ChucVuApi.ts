@@ -19,3 +19,44 @@ export const getChucVu = async () => {
         return handleError(e)
     }
 }
+export const createChucVu = async (maChucVu: string,
+    tenChucVu: string,
+    moTa: string,
+    mucluongCoBan: number,
+    heSoLuong: number) => {
+    try {
+        const result = await request().post(`${APIs.CV_CREATE}`, {
+            maChucVu: maChucVu,
+            tenChucVu: tenChucVu,
+            moTa: moTa,
+            mucluongCoBan: mucluongCoBan,
+            heSoLuong: heSoLuong,
+            type: "user"
+        })
+        const { data } = result
+        return data;
+    } catch (e) {
+        return handleError(e)
+    }
+}
+export const updateChucVu = async (
+    maChucVu: string,
+    tenChucVu: string,
+    moTa: string,
+    mucluongCoBan: number,
+    heSoLuong: number) => {
+    try {
+        const result = await request().post(APIs.CV_UPDATE, {
+            maChucVu: maChucVu,
+            tenChucVu: tenChucVu,
+            moTa: moTa,
+            mucluongCoBan: mucluongCoBan,
+            heSoLuong: heSoLuong,
+            type: "user"
+        })
+        const { data } = result
+        return data;
+    } catch (e) {
+        return handleError(e)
+    }
+}

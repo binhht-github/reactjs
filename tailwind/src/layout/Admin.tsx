@@ -2,6 +2,8 @@ import React from 'react';
 import { Route, Routes } from "react-router-dom";
 import SliderBar from "../components/sliderbar/SliderBar";
 import { routers } from '../routes';
+import ColumnSpace from '../components/board/ColumnSpace';
+import NavBoard from '../components/board/NavBoard';
 function Admin() {
   const cc = sessionStorage.getItem("currentUser");
   const currentUser = JSON.parse(cc + "")
@@ -13,14 +15,17 @@ function Admin() {
         {routers.map((item, index) => {
           if (item.role.includes(currentUser.nhanVien.cvid)) {
             return (
-              <Route path={item.path} element={item.component} key={index} />
+              <Route path={item.path} element={item.component} key={index} >
+                <Route path="project/*" ></Route>
+              </Route>
             );
           }
         })}
-        <Route path={"/"}  />
+        <Route path={"/"} />
       </Routes>
     </div>
   );
 }
+
 
 export default Admin;

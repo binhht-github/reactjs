@@ -66,7 +66,7 @@ export const updateStatusTaskWork = async (taskWorkId: number, taskId: number, t
 
 export const deleteTaskWork = async (taskWorkId: number) => {
     try {
-        const result = await request().post(`${APIs.T_UPDATESTATUSTASKWORK}?work-id=${taskWorkId}`)
+        const result = await request().post(`${APIs.T_DELETETASKWORK}?work-id=${taskWorkId}`)
         const { data } = result
         console.log("delete ", result);
 

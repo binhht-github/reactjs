@@ -1,70 +1,103 @@
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import NavBoard from "../components/board/NavBoard";
 import ColumnSpace from "../components/board/ColumnSpace";
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
-
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
-import { getProject } from "../api/ProjectApi";
+import { createProject, getProject } from "../api/ProjectApi";
+import { Route, Routes, useSearchParams } from "react-router-dom";
 
-
-interface prtemplate {
+interface IProject {
   id: number,
   projectName: string,
   createDate: string,
   listUser: [],
   createUser: string
 }
-
 interface restmp {
   success: boolean,
-  data :prtemplate[],
+  data: IProject[],
 }
 
 function Board() {
-  const [isActiveBoard, setIsActiveBoard] = useState(true);
+  const cc = sessionStorage.getItem("currentUser");
+  const currentUser = JSON.parse(cc + "")
+  const [searchParams, setSearchParams] = useSearchParams();
+  console.log("pram ", window.location.href.split("project/").pop());
 
-  
-  const  pr = [
-    {id:1,
+
+  const [isActiveBoard, setIsActiveBoard] = useState(true);
+  const [current, setCurrent] = useState<IProject>();
+  const [projectName, setProjectName] = useState<string>("");
+  const [isActiveProject, setIsActiveProject] = useState<boolean>(false)
+
+  const pr = [
+    {
+      id: 1,
       name: "web huong dan nau an"
     },
-    {id:2,
+    {
+      id: 2,
       name: "web learning"
     },
-    {id:3,
+    {
+      id: 3,
       name: "Bluzone"
     },
-    {id:4,
+    {
+      id: 4,
       name: "Du an tot nghiep"
     },
-    {id:5,
+    {
+      id: 5,
       name: "ho tro tai chinh abc"
     }
   ]
-  const [projects, setProjects] = useState<prtemplate[]>([]);
+  const [projects, setProjects] = useState<IProject[]>([]);
 
-  const [project, setProject] = useState<prtemplate>(
+  const [project, setProject] = useState<IProject>(
     {
-      id:0,
+      id: 0,
       projectName: "",
       createDate: "",
       listUser: [],
       createUser: ""
-  });
+    });
 
-  useEffect(()=>{
+  useEffect(() => {
     getProject()
-    .then((res)=>{
-      if(res){
-        setProjects(res)
-      }
-      // console.log(res.data);
-    })
-    .catch((e)=>{console.log(e);
-    })
-  },[])
+      .then((res) => {
+        if (res) {
+          setProjects(res)
+        }
+        // console.log(res.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      })
+  }, [])
+
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setProjectName(event.target.value);
+  }
+
+  const handleCreaeteNew = () => {
+    if (projectName != "") {
+      createProject(projectName, currentUser.nhanVien.maNhanVien).then(
+        (res: any) => {
+          if (res.status == 201) {
+            setProjects([...projects, res.data])
+            setProjectName("")
+            setIsActiveProject(false)
+          }
+        }
+      )
+    } else {
+      alert("chua nhap ten du an")
+    }
+  }
 
   return (
     <div className="h-screen w-[calc(100%-240px)] flex">
@@ -80,12 +113,26 @@ function Board() {
               <li>Position</li>
             </ul>
             <ul className="text-white   [&>li]:pl-6 [&>li]:py-2 cursor-pointer mt-4">
-              <div onClick={()=>{}}><AccountTreeIcon className="mr-2" /> Board List</div>
+              <div onClick={() => { }}><AccountTreeIcon className="mr-2" /> Board List</div>
               {projects.map((item, index) => {
                 return (
-                  <li key={index} onClick={() => { setProject(item) }}>  {item.projectName}</li>
+
+                  <li key={index} onClick={() => { {/* setProject(item)  */ } }}><a className="w-full h-auto block" href={`/project-manager/project/${item.id}`}>  {item.projectName}</a></li>
+                  // </a>
                 )
               })}
+              {currentUser.nhanVien.cvid == "admin" || currentUser.nhanVien.cvid == "GD" ?
+                <li>
+                  <div>
+                    <button onClick={() => { setIsActiveProject(true) }} style={{ display: `${isActiveProject ? "none" : "block"}` }}>+ New Project</button>
+                    <div className="w-full" style={{ display: `${isActiveProject ? "block" : "none"}` }}>
+                      <input type="text" className="text-black" onChange={(e) => { handleChange(e) }} value={projectName} />
+                      <button className="bg-[#342dff] p-2 rounded-lg mt-2" onClick={handleCreaeteNew}>Thêm</button>
+                      <button className="float-right mr-2 p-2 rounded-lg mt-2 hover:bg-[#cdcdcd9a]" onClick={() => { setIsActiveProject(false) }}>x</button>
+                    </div>
+                  </div>
+                </li>
+                : null}
             </ul>
           </div>
         </div>
@@ -97,17 +144,28 @@ function Board() {
           </div>
         </div>
       </div>
-      <div className={`${isActiveBoard? " w-[calc(100%-208px)]":" w-[calc(100%-4px)]"}`}>
+      <Routes>
+        <Route path={`project/${window.location.href.split("project/").pop()}`} element={
+          <>
+            <div className={`${isActiveBoard ? " w-[calc(100%-208px)]" : " w-[calc(100%-4px)]"}`}>
+              <>
+                <NavBoard projectId={Number(window.location.href.split("project/").pop())} projectName={"project.projectName"} />
+                <ColumnSpace idSpace={Number(window.location.href.split("project/").pop())} nameSpace={"project.projectName"} />
+              </>
+            </div>
+          </>
+        } />
+      </Routes>
+      {/* <div className={`${isActiveBoard ? " w-[calc(100%-208px)]" : " w-[calc(100%-4px)]"}`}>
         {project.id == 0 ? null :
           (<>
             <NavBoard projectId={project.id} projectName={project.projectName} />
             <ColumnSpace idSpace={project.id} nameSpace={project.projectName} />
           </>
           )}
-      </div>
+      </div> */}
     </div>
   );
 }
 
 export default Board;
-<h1>Khong gian lam viec</h1>;
