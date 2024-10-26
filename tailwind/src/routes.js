@@ -112,7 +112,7 @@ export var routers =[
    layout: "NV",
  },
    {
-    path: "/project-manager",
+    path: "/project-manager/*",
     name: "Quản lý dự án",
     icon: <WorkIcon sx={{ color: "#333" }} />,
     component: <ProjectManagement />,

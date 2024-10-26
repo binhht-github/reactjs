@@ -33,8 +33,7 @@ export const createChucVu = async (maChucVu: string,
             heSoLuong: heSoLuong,
             type: "user"
         })
-        const { data } = result
-        return data;
+        return result;
     } catch (e) {
         return handleError(e)
     }
@@ -54,8 +53,7 @@ export const updateChucVu = async (
             heSoLuong: heSoLuong,
             type: "user"
         })
-        const { data } = result
-        return data;
+        return result;
     } catch (e) {
         return handleError(e)
     }

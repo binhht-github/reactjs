@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import TuneIcon from '@mui/icons-material/Tune';
 import { createChucVu, getChucVu, updateChucVu } from '../api/ChucVuApi';
+import { toast } from 'react-toastify';
 
 interface IChuVu {
   maChucVu: string,
@@ -87,10 +88,15 @@ function Positionmanagerment() {
       current?.tenChucVu!,
       current?.moTa!,
       current?.mucluongCoBan!,
-      current?.heSoLuong!).then((res) => {
-        setChucVu([...chucVu, res])
-        setCurrent(null)
-        setIsActiveModel(false)
+      current?.heSoLuong!).then((res: any) => {
+        if (res.status == 201) {
+          setChucVu([...chucVu, res.data])
+          setCurrent(null)
+          setIsActiveModel(false)
+          toast.success("Câp thành công")
+        } else {
+          toast.warning("Tạo thất bại")
+        }
       })
   }
   const onHandleUpdate = () => {
@@ -102,13 +108,18 @@ function Positionmanagerment() {
       current?.moTa ? current.moTa : isActive?.moTa!,
       current?.mucluongCoBan ? current.mucluongCoBan : isActive?.mucluongCoBan!,
       current?.heSoLuong ? current?.heSoLuong! : isActive?.heSoLuong!
-    ).then((res) => {
-      const index = chucVu?.findIndex((item) => item.maChucVu == res.maChucVu);
-      const newArr = [...chucVu];
-      newArr[index] = res;
-      setChucVu(newArr);
-      setCurrent(null)
-      setIsActiveModel(false)
+    ).then((res: any) => {
+      if (res.status == 200) {
+        const index = chucVu?.findIndex((item) => item.maChucVu == res.data.maChucVu);
+        const newArr = [...chucVu];
+        newArr[index] = res.data;
+        setChucVu(newArr);
+        setCurrent(null)
+        setIsActiveModel(false)
+        toast.success("Cập nhật thành công")
+      } else {
+        toast.warning('Cập nhật thất bại')
+      }
     })
   }
   const onHandleDelete = () => {

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import TuneIcon from '@mui/icons-material/Tune';
 import { createPhongBan, getPhongBan, updatePhongBan } from "../api/PhongBanApi";
+import { toast } from "react-toastify";
 
 
 interface IPhongBan {
@@ -81,10 +82,15 @@ function DepartmentManagement() {
       current?.tenPhongBan!,
       current?.moTa!,
       current?.truongPhong!,
-      current?.type!).then((res) => {
-        setPhongBans([...phongBans, res])
-        setCurrent(null)
-        setIsActiveModel(false)
+      current?.type!).then((res: any) => {
+        if (res.status == 201) {
+          setPhongBans([...phongBans, res.data])
+          setCurrent(null)
+          setIsActiveModel(false)
+          toast.success("Tạo thành công")
+        } else {
+          toast.warning('Tạo thất bại')
+        }
       })
   }
   const onHandleUpdate = () => {
@@ -93,27 +99,33 @@ function DepartmentManagement() {
       current?.tenPhongBan! ? current?.tenPhongBan! : isActive?.tenPhongBan!,
       current?.moTa! ? current?.moTa! : isActive?.moTa!,
       current?.truongPhong! ? current?.truongPhong! : isActive?.truongPhong!,
-      isActive?.type!).then((res) => {
-        const index = phongBans?.findIndex((item) => item.maPhongBan == res.maPhongBan);
-        const newArr = [...phongBans];
-        newArr[index] = res;
-        setPhongBans(newArr);
-        setCurrent(null)
-        setIsActiveModel(false)
+      isActive?.type!).then((res: any) => {
+        if (res.status == 200) {
+          const index = phongBans?.findIndex((item) => item.maPhongBan == res.data.maPhongBan);
+          const newArr = [...phongBans];
+          newArr[index] = res.data;
+          setPhongBans(newArr);
+          setCurrent(null)
+          setIsActiveModel(false)
+          toast.success('Cập nhật thành công')
+        }
+        else {
+          toast.warning('Cập nhật thất bại')
+        }
       })
   }
   const onHandleDelete = () => {
-    console.log(current);
-    createPhongBan(
-      current?.maPhongBan!,
-      current?.tenPhongBan!,
-      current?.moTa!,
-      current?.truongPhong!,
-      current?.type!).then((res) => {
-        setPhongBans([...phongBans, res])
-        setCurrent(null)
-        setIsActiveModel(false)
-      })
+    // console.log(current);
+    // createPhongBan(
+    //   current?.maPhongBan!,
+    //   current?.tenPhongBan!,
+    //   current?.moTa!,
+    //   current?.truongPhong!,
+    //   current?.type!).then((res) => {
+    //     setPhongBans([...phongBans, res])
+    //     setCurrent(null)
+    //     setIsActiveModel(false)
+    //   })
   }
 
 

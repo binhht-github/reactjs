@@ -7,6 +7,11 @@ import { useOutsideClick } from '../board/testRef';
 import { getChucVu } from '../../api/ChucVuApi';
 import { getPhongBan } from '../../api/PhongBanApi';
 import { communeByDistrict, districtByProvince, provinceAll } from '../../db';
+import { toast } from 'react-toastify';
+import { uploadFiles } from '../../api/FilesApi';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../redux/configureStore';
+import { addNewNhanVien } from '../../redux/reducer/nhanVienSlide';
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
@@ -20,7 +25,7 @@ interface INhanVien {
     "anh": string,
     "cccd": string,
     "chucvu": string,
-    "cvid":string,
+    "cvid": string,
     "createDate": string,
     "creator": string,
     "cv": string,
@@ -35,7 +40,7 @@ interface INhanVien {
     "username": string,
     "ngaySinh": string,
     "phongban": string,
-    "pbid":string;
+    "pbid": string;
     "sdt": string,
 }
 interface IProvince {
@@ -68,29 +73,35 @@ interface IPhongBan {
 }
 
 function CreateNewUser({ userActive, setUsers, users }: props) {
-    const [userNew, setUserNew] = useState<INhanVien|null>(
+    const dispatch = useDispatch();
+    const a = useSelector((state: RootState) => state.nhanViens);
+
+    console.log("hihih ", useSelector((state: RootState) => state.nhanViens));
+
+
+    const [userNew, setUserNew] = useState<INhanVien | null>(
         {
-        "anh": "",
-        "cccd": "",
-        "chucvu": "all",
-        "cvid":"",
-        "createDate": dayjs(new Date() + "").format('DD-MM-YYYY'),
-        "creator": "admin",
-        "cv": "",
-        "deleted": "deleted",
-        "diaChi": "",
-        "email": "",
-        "gioiTinh": "nam",
-        "heSoLuong": "",
-        "hoTen": "",
-        "luongCoBan": "",
-        "maNhanVien": "",
-        "username": "",
-        "ngaySinh": "",
-        "phongban": "all",
-        "pbid":"",
-        "sdt": ""
-    });
+            "anh": "",
+            "cccd": "",
+            "chucvu": "all",
+            "cvid": "",
+            "createDate": dayjs(new Date() + "").format('DD-MM-YYYY'),
+            "creator": "admin",
+            "cv": "",
+            "deleted": "deleted",
+            "diaChi": "",
+            "email": "",
+            "gioiTinh": "nam",
+            "heSoLuong": "",
+            "hoTen": "",
+            "luongCoBan": "",
+            "maNhanVien": "",
+            "username": "",
+            "ngaySinh": "",
+            "phongban": "all",
+            "pbid": "",
+            "sdt": ""
+        });
     const [value, onChange] = useState<Value>(new Date());
     const [chucVu, setChucVu] = useState<IChucVu[]>([]);
     const [phongbans, setPhongbans] = useState<IPhongBan[]>([]);
@@ -107,7 +118,7 @@ function CreateNewUser({ userActive, setUsers, users }: props) {
     const [selectFile, setSelectFile] = useState<File | null>(null)
     const [testImg, setTestImg] = useState<String>("")
 
-    
+
     useEffect(() => {
         getChucVu().then((res) => {
             setChucVu(res);
@@ -116,35 +127,35 @@ function CreateNewUser({ userActive, setUsers, users }: props) {
             setPhongbans(res)
         })
     }, [])
-    useEffect(()=>{
-        userActive ? 
-        setUserNew(userActive)
-        :
-        setUserNew(
-            {
-                "anh": "",
-                "cccd": "",
-                "chucvu": "all",
-                "cvid":"",
-                "createDate": dayjs(new Date() + "").format('DD-MM-YYYY'),
-                "creator": "admin",
-                "cv": "",
-                "deleted": "deleted",
-                "diaChi": "",
-                "email": "",
-                "gioiTinh": "nam",
-                "heSoLuong": "",
-                "hoTen": "",
-                "luongCoBan": "",
-                "maNhanVien": "",
-                "username": "",
-                "ngaySinh": "",
-                "phongban": "all",
-                "pbid":"",
-                "sdt": ""
-            }
-        )
-    },[userActive])
+    useEffect(() => {
+        userActive ?
+            setUserNew(userActive)
+            :
+            setUserNew(
+                {
+                    "anh": "",
+                    "cccd": "",
+                    "chucvu": "all",
+                    "cvid": "",
+                    "createDate": dayjs(new Date() + "").format('DD-MM-YYYY'),
+                    "creator": "admin",
+                    "cv": "",
+                    "deleted": "deleted",
+                    "diaChi": "",
+                    "email": "",
+                    "gioiTinh": "nam",
+                    "heSoLuong": "",
+                    "hoTen": "",
+                    "luongCoBan": "",
+                    "maNhanVien": "",
+                    "username": "",
+                    "ngaySinh": "",
+                    "phongban": "all",
+                    "pbid": "",
+                    "sdt": ""
+                }
+            )
+    }, [userActive])
 
     useEffect(() => {
         setDistrict(districtByProvince(proviceCurrent.split("-")[0]));
@@ -156,15 +167,14 @@ function CreateNewUser({ userActive, setUsers, users }: props) {
         if (event.target.files && event.target.files.length > 0) {
             setSelectFile(event.target.files[0]);
             setTestImg(URL.createObjectURL(event.target.files[0]));
-
-            // uploadFiles(event.target.files[0]);
+            // uploadFiles(selectFile);
         }
     };
 
 
     const handleCreateNew = () => {
         console.log(userNew);
-        
+
         if (
             userNew?.pbid != "all" &&
             userNew?.cvid != "all"
@@ -180,40 +190,59 @@ function CreateNewUser({ userActive, setUsers, users }: props) {
                 userNew?.pbid!,
                 userNew?.cvid!,
                 dayjs(value + "").format('YYYY-MM-DD')
-            ).then((res) => {
-                setUsers([...users, res])
+            ).then((res: any) => {
+                if (res.status == 201) {
+                    // setUsers([...users, res.data])
+                    dispatch(addNewNhanVien(res.data))
+                    toast.success("Tạo thành công")
+                } else {
+                    toast.warning("Tạo thất bại!")
+                }
             })
         } else {
             alert("chua chon chuc vu hoac phong ban")
         }
     }
-    const handleSaveUser = ()=>{
-        console.log(userNew?.diaChi);
-        
+    const handleSaveUser = async () => {
+        console.log("selectFile ", selectFile);
+        let srcImg = "";
+        if (selectFile != null) {
+            await uploadFiles(selectFile).then((res: any) => {
+                console.log(res.data);
+                srcImg = res.data;
+            });
+        }
+
         if (
             userNew?.phongban != "all" &&
             userNew?.chucvu != "all" &&
             userNew != null
         ) {
 
-            // updateNhanVien(
-            //     userNew?.maNhanVien!,
-            //     userNew?.hoTen!,
-            //     userNew?.cccd!,
-            //     userNew?.email!,
-            //     userNew?.gioiTinh!,
-            //     userNew?.anh!,
-            //     userNew?.sdt!,
-            //     userNew?.diaChi!,
-            //     userNew?.pbid!,
-            //     userNew?.cvid!,
-            //     dayjs(value + "").format('YYYY-MM-DD')
-            // ).then((res) => {
-            //     const index = users.findIndex((item) => item.maNhanVien == res.maNhanVien);
-            //     const newArr = [...users];
-            //     newArr[index] = res;
-            //     setUsers(newArr);
-            // })
+            await updateNhanVien(
+                userNew?.maNhanVien!,
+                userNew?.hoTen!,
+                userNew?.cccd!,
+                userNew?.email!,
+                userNew?.gioiTinh!,
+                // userNew?.anh!,
+                srcImg,
+                userNew?.sdt!,
+                userNew?.diaChi!,
+                userNew?.pbid!,
+                userNew?.cvid!,
+                dayjs(value + "").format('YYYY-MM-DD')
+            ).then((res: any) => {
+                if (res.status == 200) {
+                    const index = users.findIndex((item) => item.maNhanVien == res.data.maNhanVien);
+                    const newArr = [...users];
+                    newArr[index] = res.data;
+                    setUsers(newArr);
+                    toast.success("Cập nhật thành công")
+                } else {
+                    toast.warning("Cập nhật thất bại")
+                }
+            })
         } else {
             alert("chua chon chuc vu hoac phong ban")
         }
@@ -230,56 +259,56 @@ function CreateNewUser({ userActive, setUsers, users }: props) {
             setUserNew({
                 ...userNew,
                 gioiTinh: event.target.value
-            }as INhanVien)
+            } as INhanVien)
         }
         if (event.target.id == "email") {
             setUserNew({
                 ...userNew,
                 email: event.target.value
-            }as INhanVien)
+            } as INhanVien)
         }
         if (event.target.id == "viTri") {
             setUserNew({
                 ...userNew,
                 cvid: event.target.value
-            }as INhanVien)
+            } as INhanVien)
         }
         if (event.target.id == "phongBan") {
             setUserNew({
                 ...userNew,
                 pbid: event.target.value
-            }as INhanVien)
+            } as INhanVien)
         }
         if (event.target.id == "sdt") {
             setUserNew({
                 ...userNew,
                 sdt: event.target.value
-            }as INhanVien)
+            } as INhanVien)
         }
         if (event.target.id == "cccd") {
             setUserNew({
                 ...userNew,
                 cccd: event.target.value
-            }as INhanVien)
+            } as INhanVien)
         }
         if (event.target.id == "provice") {
             setUserNew({
                 ...userNew,
                 diaChi: event.target.value
                 // .split("-")[1]
-            }as INhanVien)
+            } as INhanVien)
         }
         if (event.target.id == "distric") {
             setUserNew({
                 ...userNew,
                 diaChi: event.target.value + ", " + userNew?.diaChi
-            }as INhanVien)
+            } as INhanVien)
         }
         if (event.target.id == "commune") {
             setUserNew({
                 ...userNew,
                 diaChi: event.target.value + ", " + userNew?.diaChi
-            }as INhanVien)
+            } as INhanVien)
         }
 
     }
@@ -302,7 +331,7 @@ function CreateNewUser({ userActive, setUsers, users }: props) {
                                     "anh": "",
                                     "cccd": "",
                                     "chucvu": "all",
-                                    "cvid":"",
+                                    "cvid": "",
                                     "createDate": dayjs(new Date() + "").format('DD-MM-YYYY'),
                                     "creator": "admin",
                                     "cv": "",
@@ -317,21 +346,34 @@ function CreateNewUser({ userActive, setUsers, users }: props) {
                                     "username": "",
                                     "ngaySinh": "",
                                     "phongban": "all",
-                                    "pbid":"",
+                                    "pbid": "",
                                     "sdt": ""
                                 })
                             }
                         }}>Clear</button>
-                        <button onClick={()=>{console.log(
-                            userNew?.diaChi.split(",").pop()?.split("-")[0]
-                        );
+                        <button onClick={() => {
+                            console.log(
+                                "seleted file ", a
+                            );
                         }}>test</button>
                     </div>
                 </div>
                 <div className="w-full h-[calc(100%-56px)] bg-[white] flex flex-col items-center justify-center">
                     <div id="hoverCreateAnh" className="translate-y-5 hover:bg-[red] w-20 h-20 rounded-full border border-sky-500 border-solid relative">
                         <div className="absolute bg-[#ffffff] w-full h-full top-0 rounded-full z-10 flex justify-center items-center">
-                            <Avatar size={80} url={`${testImg}`} />
+                            {/* <Avatar size={80} url={`${testImg}`} /> */}
+                            <img
+                                width={`${80}px`}
+                                height={`${80}px`}
+                                src={`${testImg}`}
+                                alt=""
+                                style={{
+                                    borderRadius: "100%",
+                                    width: `${80}px`,
+                                    height: `${80}px`,
+                                    objectFit: "cover",
+                                }}
+                            />
                         </div>
                         <div id="createAnh" className="z-50 absolute w-full h-full bg-opacity-90 bg-[#ffffff] rounded-full hidden ">
                             <input type="file" onChange={handleFileChange} />
@@ -457,15 +499,15 @@ function CreateNewUser({ userActive, setUsers, users }: props) {
                                 </div>
                                 <div className="py-2 flex flex-col">
                                     <label htmlFor="">Địa chỉ</label>
-                                    <select 
-                                    id="provice" 
-                                    // value={  userNew?.diaChi.split(",").pop()?.split("-")[0]}
-                                    value={proviceCurrent}
-                                    className="inline-block font-medium bg-[#bcbcbc] mb-2" 
-                                    onChange={(e) => {
-                                        setProvinceCurrent(e.target.value)
-                                        onChangeNewUser(e)
-                                    }}
+                                    <select
+                                        id="provice"
+                                        // value={  userNew?.diaChi.split(",").pop()?.split("-")[0]}
+                                        value={proviceCurrent}
+                                        className="inline-block font-medium bg-[#bcbcbc] mb-2"
+                                        onChange={(e) => {
+                                            setProvinceCurrent(e.target.value)
+                                            onChangeNewUser(e)
+                                        }}
                                     >
                                         <option value="all">Tinh/TP</option>
                                         {

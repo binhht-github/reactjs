@@ -1,47 +1,63 @@
 import React, { useEffect, useState } from "react";
 import TaskSpace from "./TaskSpace";
 import { TextareaAutosize } from "@mui/material";
-import {  createNewCard, getCardByColumnId } from "../../api/CardApi";
+import { createNewCard, getCardByColumnId } from "../../api/CardApi";
 
 interface workListProp {
   id: number;
   name: string;
-  cards:[]
+  cards: []
 }
 
-interface workCardItem{
-  id:number;
-  cardName:string;
-  taskEnntities:[];
+interface ICard {
+  id: number;
+  cardName: string;
+  taskEnntities: [];
+  createDate: string,
+  cardStack: number,
+  createUser: string
 }
 
-function CardSpace({id,name,cards}:workListProp) {
+function CardSpace({ id, name, cards }: workListProp) {
   const cc = sessionStorage.getItem("currentUser");
   const currentUser = JSON.parse(cc + "")
 
-  const [listCard, setListCard] = useState<workCardItem[]>([]);
+  const [listCard, setListCard] = useState<ICard[]>([]);
   const [showModal, setShowModal] = React.useState(false);
-  const [currentCard,setCurrentCard] = useState<string>("");
-  const [isOpenTextArea,setIsOpenTextArea] = useState<boolean>(false);
+  const [currentCard, setCurrentCard] = useState<string>("");
+  const [isOpenTextArea, setIsOpenTextArea] = useState<boolean>(false);
 
-  useEffect(()=>{
-    console.log("aaaaaa");
-    
-    getCardByColumnId(id).then((res)=>{
+  useEffect(() => {
+    getCardByColumnId(id).then((res) => {
       setListCard(res);
     });
-  },[id])
-  
+  }, [id])
+
   const addCardHandle = () => {
-    createNewCard({columnId:id},currentCard,currentUser.nhanVien.maNhanVien).then((res)=>{
+    createNewCard({ columnId: id }, currentCard, currentUser.nhanVien.maNhanVien).then((res) => {
       setListCard((preCard) => [...preCard, res]);
     })
     setCurrentCard("")
     setIsOpenTextArea(false)
   };
+  const moveCardStack = (stackForm: number, stackTo: number) => {
+    console.log("stack ", stackForm, " to ", stackTo);
+
+    const indexFrom = listCard.findIndex(item => item.cardStack == stackForm);
+    const indexTo = listCard.findIndex(item => item.cardStack == stackTo);
+    const newArr = [...listCard];
+    const temp = newArr[indexFrom]
+    newArr[indexFrom] = newArr[indexTo];
+    newArr[indexTo] = temp;
+    console.log(newArr);
+
+    setListCard(newArr);
+    console.log("da di chuyen tu vij tgri ", indexFrom + 1, "den ", indexTo + 1);
+
+  }
 
   return (
-    <div className="ml-3 mt-4 h-fit  w-64  rounded-xl bg-[#f4f2f2]  p-4">
+    <div className="ml-3 mt-4 h-fit  w-64  rounded-xl bg-[#f4f2f2]  p-4 ">
       <div className="relative mb-2 flex h-8  w-full items-center justify-between">
         <h2 className="text-[#333] w-[calc(100%-50px)] font-medium">{name}</h2>
         <>
@@ -62,7 +78,7 @@ function CardSpace({id,name,cards}:workListProp) {
                 </div>
                 <div className="h-full w-full pt-5 ">
                   <div className="w-full py-1 hover:bg-slate-300">
-                    <button className="text-white">Thêm thẻ</button>
+                    <button onClick={() => { moveCardStack(0, 2) }} className="text-white">Thêm thẻ</button>
                   </div>
                   <div className="w-full py-1 hover:bg-slate-300">
                     <button className="text-white">Sắp sếp theo Tên</button>
@@ -87,34 +103,34 @@ function CardSpace({id,name,cards}:workListProp) {
       >
         {/* <div className={`max-h-[70vh] w-full overflow-y-scroll`}> */}
         {listCard.length > 0 ? listCard.map((item, index) => {
-          return <TaskSpace key={index} cardName={item.cardName} cardID={item.id} />;
-        }):null}
+          return <TaskSpace key={index} cardName={item.cardName} cardID={item.id} cardLenght={listCard.length} cardStack={item.cardStack} moveStack={moveCardStack} />;
+        }) : null}
       </div>
-        {!isOpenTextArea ? (
-      <div
-      onClick={()=>{setIsOpenTextArea(true)}}
-        className="mt-2 min-h-10 w-full cursor-pointer rounded-lg  pl-3 pt-2 hover:bg-[#ffffff]"
-      >
-        <label
-          htmlFor="The Lam Viec"
-          className="cursor-pointer font-bold text-[#9c9a9a]"
+      {!isOpenTextArea ? (
+        <div
+          onClick={() => { setIsOpenTextArea(true) }}
+          className="mt-2 min-h-10 w-full cursor-pointer rounded-lg  pl-3 pt-2 hover:bg-[#ffffff]"
         >
-          + Thêm thẻ
-        </label>
-      </div>
-        ):(
-      <div
+          <label
+            htmlFor="The Lam Viec"
+            className="cursor-pointer font-bold text-[#9c9a9a]"
+          >
+            + Thêm thẻ
+          </label>
+        </div>
+      ) : (
+        <div
           className="flex h-fit w-full flex-col rounded-lg bg-[#f4f2f2] bg-opacity-0 p-2"
         >
           <div className="w-full h-fit">
-            <TextareaAutosize value={currentCard} onChange={(e)=>{setCurrentCard(e.target.value)}}  name="" className="px-2 rounded-lg bg-[#ffffff]   resize-none w-full overflow-hidden min-h-7 " id="" cols={1} ></TextareaAutosize>
+            <TextareaAutosize value={currentCard} onChange={(e) => { setCurrentCard(e.target.value) }} name="" className="px-2 rounded-lg bg-[#ffffff]   resize-none w-full overflow-hidden min-h-7 " id="" cols={1} ></TextareaAutosize>
           </div>
           <div className="w-full h-12 flex  ">
-            <button onClick={()=>{addCardHandle()}} className="w-auto m-2 px-2 active:bg-[#b6c6d6] text-white  rounded-md bg-[#3e5da0] hover:bg-[#6c7e96]">Them The</button>
-            <button className="text-[#aaa] font-bold"  onClick={()=>{setIsOpenTextArea(false)}}>X</button>
+            <button onClick={() => { addCardHandle() }} className="w-auto m-2 px-2 active:bg-[#b6c6d6] text-white  rounded-md bg-[#3e5da0] hover:bg-[#6c7e96]">Them The</button>
+            <button className="text-[#aaa] font-bold" onClick={() => { setIsOpenTextArea(false) }}>X</button>
           </div>
         </div>
-        )}
+      )}
     </div>
   );
 }

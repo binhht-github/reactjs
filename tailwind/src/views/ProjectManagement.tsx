@@ -6,7 +6,10 @@ import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import { createProject, getProject } from "../api/ProjectApi";
-import { Route, Routes, useSearchParams } from "react-router-dom";
+import { Link, Route, Routes, useSearchParams } from "react-router-dom";
+import { Bounce, toast } from "react-toastify";
+import Member from "../components/board/Member";
+import Infomation from "../components/board/Infomation";
 
 interface IProject {
   id: number,
@@ -23,39 +26,13 @@ interface restmp {
 function Board() {
   const cc = sessionStorage.getItem("currentUser");
   const currentUser = JSON.parse(cc + "")
-  const [searchParams, setSearchParams] = useSearchParams();
-  console.log("pram ", window.location.href.split("project/").pop());
-
+  const [url, setUrl] = useState<string>("");
 
   const [isActiveBoard, setIsActiveBoard] = useState(true);
   const [current, setCurrent] = useState<IProject>();
   const [projectName, setProjectName] = useState<string>("");
   const [isActiveProject, setIsActiveProject] = useState<boolean>(false)
-
-  const pr = [
-    {
-      id: 1,
-      name: "web huong dan nau an"
-    },
-    {
-      id: 2,
-      name: "web learning"
-    },
-    {
-      id: 3,
-      name: "Bluzone"
-    },
-    {
-      id: 4,
-      name: "Du an tot nghiep"
-    },
-    {
-      id: 5,
-      name: "ho tro tai chinh abc"
-    }
-  ]
   const [projects, setProjects] = useState<IProject[]>([]);
-
   const [project, setProject] = useState<IProject>(
     {
       id: 0,
@@ -77,7 +54,9 @@ function Board() {
         console.log(e);
       })
   }, [])
+  // console.log("test ", Number(window.location.href.split("project/")));
 
+  // const index = projects.filter((item) => item.id == Number(window.location.href.split("project/").pop()));
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setProjectName(event.target.value);
@@ -91,6 +70,9 @@ function Board() {
             setProjects([...projects, res.data])
             setProjectName("")
             setIsActiveProject(false)
+            toast.success('Tạo Thành Công');
+          } else {
+            toast.warning('Tạo Thất bại!');
           }
         }
       )
@@ -98,6 +80,11 @@ function Board() {
       alert("chua nhap ten du an")
     }
   }
+
+  const addNewUser = () => {
+
+  }
+
 
   return (
     <div className="h-screen w-[calc(100%-240px)] flex">
@@ -108,17 +95,16 @@ function Board() {
             </div>
             <hr />
             <ul className="text-white p-2 [&>li]:cursor-pointer w-full [&>li]:pl-6 [&>li]:py-2 mt-4"><BusinessCenterIcon className="mr-2" />project information
-              <li>Ganeral Informaiton</li>
-              <li>Member</li>
-              <li>Position</li>
+              <li> <Link className="w-full h-auto block" to={`${url}/infomation`}>Ganeral Informaiton</Link></li>
+              <li> <Link className="w-full h-auto block" to={`${url}/member`}>Member</Link></li>
             </ul>
             <ul className="text-white   [&>li]:pl-6 [&>li]:py-2 cursor-pointer mt-4">
               <div onClick={() => { }}><AccountTreeIcon className="mr-2" /> Board List</div>
               {projects.map((item, index) => {
                 return (
-
-                  <li key={index} onClick={() => { {/* setProject(item)  */ } }}><a className="w-full h-auto block" href={`/project-manager/project/${item.id}`}>  {item.projectName}</a></li>
-                  // </a>
+                  <li key={index} onClick={() => { setUrl(`/project-manager/project/${item.id}`) }} style={{ backgroundColor: `${item.id + "" == url.split("/").pop() ? "rgba(255,2555,255,0.6)" : "rgba(0,0,0,0)"}` }}>
+                    <Link className="w-full h-full block" to={`/project-manager/project/${item.id}`}>{item.projectName}</Link>
+                  </li>
                 )
               })}
               {currentUser.nhanVien.cvid == "admin" || currentUser.nhanVien.cvid == "GD" ?
@@ -145,16 +131,26 @@ function Board() {
         </div>
       </div>
       <Routes>
-        <Route path={`project/${window.location.href.split("project/").pop()}`} element={
-          <>
-            <div className={`${isActiveBoard ? " w-[calc(100%-208px)]" : " w-[calc(100%-4px)]"}`}>
-              <>
-                <NavBoard projectId={Number(window.location.href.split("project/").pop())} projectName={"project.projectName"} />
-                <ColumnSpace idSpace={Number(window.location.href.split("project/").pop())} nameSpace={"project.projectName"} />
-              </>
-            </div>
-          </>
-        } />
+        {projects.map((item) => {
+          return (
+            <Route key={item.id}>
+              <Route path={`/project/${item?.id}`} element={
+
+                <div className={`${isActiveBoard ? " w-[calc(100%-208px)]" : " w-[calc(100%-4px)]"}`}>
+                  <>
+                    <NavBoard projectId={item.id} projectName={item.projectName} />
+                    <ColumnSpace idSpace={item?.id} nameSpace={item?.projectName} />
+                  </>
+                </div>
+
+              } />
+              <Route path={`project/${item.id}/infomation`} element={<Infomation />}></Route>
+              <Route path={`project/${item.id}/member`} element={<Member id={item.id} tenProject={item.projectName} />}></Route>
+            </Route>
+          )
+        })}
+
+
       </Routes>
       {/* <div className={`${isActiveBoard ? " w-[calc(100%-208px)]" : " w-[calc(100%-4px)]"}`}>
         {project.id == 0 ? null :
@@ -164,7 +160,7 @@ function Board() {
           </>
           )}
       </div> */}
-    </div>
+    </div >
   );
 }
 

@@ -101,7 +101,7 @@ export const createRequest = (baseUrl: string, timeout: number) => {
                         // ...defaultOptions.headers,
                         // ...options?.headers,
                         'Content-Type': 'multipart/form-data',
-                        'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0aGlsYnQxMzM5NEBnbWFpbC5jb20iLCJpYXQiOjE3MTQ3MDQzNTIsImV4cCI6MTcxNTMwOTE1Mn0.lKmaFyTJW5-rcDhDXwRN1MNK0ff8TvP8JIAP-FgMTJzUWR6dzlypJ1Hp7Wsg-8LGzQ9LW5ueDxhew-B6iVECgg'
+                        'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbmhudjIxNTg3QGdtYWlsLmNvbSIsImlhdCI6MTcxNjk3MzIwNCwiZXhwIjoxNzE3NTc4MDA0fQ.TlUdcbEkhIdDwYF65y0WrCfb_LkBylZG3ZnXetAeGGGSgGSkzvU2Gjo2wU1qHcvKOkvsXis1D1W0P5u4xiPYWg'
                     },
                 })
             },

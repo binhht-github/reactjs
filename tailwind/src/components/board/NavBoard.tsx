@@ -6,34 +6,34 @@ import { getAllNhanVienByProject } from "../../api/NhanVienApi";
 
 
 
-interface prop  {
+interface prop {
   projectId: number,
-  projectName : string,
+  projectName: string,
 }
 
 
-interface INhanVien{
-  "anh":string,
-  "cccd":string,
-  "chucvu":string,
-  "createDate":string,
-  "creator":string,
-  "cv":string,
-  "deleted":string,
-  "diaChi":string,
-  "email":string,
-  "gioiTinh":string,
-  "heSoLuong":string,
-  "hoTen":string,
-  "luongCoBan":string,
-  "maNhanVien":string,
-  "username":string,
-  "ngaySinh":string,
-  "phongban":string,
-  "sdt":string,
+interface INhanVien {
+  "anh": string,
+  "cccd": string,
+  "chucvu": string,
+  "createDate": string,
+  "creator": string,
+  "cv": string,
+  "deleted": string,
+  "diaChi": string,
+  "email": string,
+  "gioiTinh": string,
+  "heSoLuong": string,
+  "hoTen": string,
+  "luongCoBan": string,
+  "maNhanVien": string,
+  "username": string,
+  "ngaySinh": string,
+  "phongban": string,
+  "sdt": string,
 }
 
-function NavBoard(props:prop) {
+function NavBoard(props: prop) {
   const [avt, setAvt] = useState([
     "https://i.pinimg.com/736x/2c/d8/a7/2cd8a74b799243e32d4ee504771a82d0.jpg",
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYrep2Ye25MojZvZG2OsW0VbCOX91ALTvEq1cK_9kZ_eUi4TMX0R2fc5YcxEqcyiUOEWs&usqp=CAU",
@@ -41,17 +41,15 @@ function NavBoard(props:prop) {
     "https://ngoaingutomato.edu.vn/Data/images/hinh-anh-co-gai-cute-anime.jpeg",
   ]);
 
-  const [nhanvien,setNhanvien] = useState<INhanVien[]>([])
+  const [nhanvien, setNhanvien] = useState<INhanVien[]>([])
 
 
 
-  useEffect(()=>{
-    getAllNhanVienByProject(props.projectId+"").then((res)=>{
+  useEffect(() => {
+    getAllNhanVienByProject(props.projectId + "").then((res) => {
       setNhanvien(res);
-      console.log(res);
-      
     })
-  },[props.projectId])
+  }, [props.projectId])
 
   return (
     <div className="flex h-12 w-full items-center justify-between bg-[black] bg-opacity-50">

@@ -4,6 +4,10 @@ import TuneIcon from '@mui/icons-material/Tune';
 import 'react-calendar/dist/Calendar.css';
 import { deleteNhanVien, getNhanVienByPage, getTotal } from "../api/NhanVienApi";
 import CreateNewUser from "../components/usermanagement/CreateNewUser";
+import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../redux/configureStore";
+import { setNhanViens } from "../redux/reducer/nhanVienSlide";
 
 interface props {
   authenticated: boolean
@@ -34,8 +38,9 @@ interface INhanVien {
 
 
 function Dashboard(props: props) {
+  const selector = useSelector((state: RootState) => state.nhanViens);
 
-  const [users, setUsers] = useState<INhanVien[]>([]);
+  const [users, setUsers] = useState<INhanVien[]>(selector);
   const [isActive, setIsActive] = useState<number>(1);
   const [isAction, setIsAction] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
@@ -43,31 +48,13 @@ function Dashboard(props: props) {
   const [totalPage, setTotalPage] = useState<number>(1);
   const [animation, setAnimation] = useState(false);
   const [userActive, setUserActive] = useState<INhanVien | null>(null);
-  // const [userActive, setUserActive] = useState<INhanVien>({
-  //   "anh": "anh",
-  //   "cccd": "cccd",
-  //   "chucvu": "chucvu",
-  //   "createDate": "createDate",
-  //   "creator": "creator",
-  //   "cv": "cv",
-  //   "deleted": "deleted",
-  //   "diaChi": "diaChi",
-  //   "email": "email",
-  //   "gioiTinh": "gioiTinh",
-  //   "heSoLuong": "heSoLuong",
-  //   "hoTen": "hoTen",
-  //   "luongCoBan": "luongCoBan",
-  //   "maNhanVien": "maNhanVien",
-  //   "username": "username",
-  //   "ngaySinh": "ngaySinh",
-  //   "phongban": "phongban",
-  //   "sdt": "sdtg"
-  // });
+  const dispath = useDispatch();
+
 
   useEffect(() => {
     setAnimation(true)
     getNhanVienByPage(page, lengthPage).then((res) => {
-      setUsers(res);
+      dispath(setNhanViens(res));
       setAnimation(false)
     })
     getTotal(lengthPage).then((res: number) => {
@@ -90,11 +77,16 @@ function Dashboard(props: props) {
 
       deleteNhanVien(
         userActive.maNhanVien!
-      ).then((res) => {
-        const index = users.findIndex((item) => item.maNhanVien == res.maNhanVien);
-        const newArr = [...users];
-        newArr[index] = res;
-        setUsers(newArr);
+      ).then((res: any) => {
+        if (res.status == 200) {
+          const index = users.findIndex((item) => item.maNhanVien == res.data.maNhanVien);
+          const newArr = [...users];
+          newArr[index] = res.data;
+          setUsers(newArr);
+          toast.success("Xóa thành công")
+        } else {
+          toast.warning("Xóa thất bại")
+        }
       })
     } else {
       alert(userActive?.deleted != "true" ? "vui long cho nhan vien" : "Nhan Vien Nay Da Bi Xoa")

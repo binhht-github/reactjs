@@ -15,7 +15,8 @@ export const uploadFiles = async (files: any) => {
     console.log(files);
 
     const formData = new FormData();
-    formData.append('file', files); // file là biến chứa tệp bạn muốn tải lên
+    // formData.append('file', files); // file là biến chứa tệp bạn muốn tải lên
+    formData.append('image', files); // file là biến chứa tệp bạn muốn tải lên
 
     // axios.post("http://localhost:8080/uploadFile", formData, {
     //     headers: {
@@ -30,9 +31,8 @@ export const uploadFiles = async (files: any) => {
     // })
 
     try {
-        const result = await request().postFile(`${APIs.F_UPLOAD}`, formData)
-        const { data } = result
-        return data;
+        const result = await request().postFile(`${APIs.IMG_UPLOAD}`, formData)
+        return result;
     } catch (e) {
         return handleError(e)
     }

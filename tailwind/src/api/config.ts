@@ -21,6 +21,7 @@ export const APIs = {
 
     N_ALL: "/nhan-vien/all",
     N_GETBYPROJECT: "/nhanviens/project",
+    N_GETNOTPROJECT: "/nhanviens/project-add",
     N_CREATE: "/nhan-vien/create",
     N_UPDATE: "/repalce-nhanVien",
     N_DELETE: "/nhan-vien/delete",
@@ -43,6 +44,7 @@ export const APIs = {
     P_GETALL: "/project/all",
     P_PAGESIZE: "/user/me",
     P_CREATE: "/project/create",
+    P_ADDUSER: "/project/add-user",
 
 
     // API Column
@@ -62,7 +64,10 @@ export const APIs = {
     T_UPDATESTATUSTASKWORK: "/task-work/update-work",
     T_DELETETASKWORK: "/task-work/delete-work",
 
-    /** Files */
+    ATW_GETBYTASK: "/active-work",
+
+
     F_UPLOAD: "/uploadFile",
-    F_DOWNLOAD: "/downloadFile"
+    F_DOWNLOAD: "/downloadFile",
+    IMG_UPLOAD: "/image-byte"
 }

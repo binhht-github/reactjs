@@ -84,11 +84,11 @@ function TaskWork({ taskID }: Iprops) {
                     prve.taskWorkName,
                     prve.creaeteDate,
                     prve.creaeteUser,
-                    prve.status).then((res)=>{
-                        if(res == null || res ==""){
+                    prve.status).then((res) => {
+                        if (res == null || res == "") {
                             return
                         }
-                })
+                    })
                 return prve
             }
         })
@@ -106,17 +106,17 @@ function TaskWork({ taskID }: Iprops) {
         }
     }
 
-    const handleDeleteWork = (workID:number) =>{
-        console.log("delete "+workID);
-        deleteTaskWork(workID).then((res:any)=>{
-            if(res.status == 200){
+    const handleDeleteWork = (workID: number) => {
+        console.log("delete " + workID);
+        deleteTaskWork(workID).then((res: any) => {
+            if (res.status == 200) {
                 const newItems = listWorks.filter((item) => item.taskWorkId !== workID);
                 setListWorks(newItems);
             }
         })
     }
-    console.log(listWorks);
-    
+    // console.log(listWorks);
+
 
 
 
@@ -135,11 +135,11 @@ function TaskWork({ taskID }: Iprops) {
                 return (
                     <div key={item.taskWorkId} className='relative flex justify-between'>
                         <div>
-                        <input type="checkbox" defaultChecked={item.status ? true : false} onChange={() => { handleUpadteStatus(item.taskWorkId) }} className='absolute top-1.5 -left-7 cursor-pointer' />
-                        <label htmlFor="" >{item.taskWorkName}</label>
-                        
+                            <input type="checkbox" defaultChecked={item.status ? true : false} onChange={() => { handleUpadteStatus(item.taskWorkId) }} className='absolute top-1.5 -left-7 cursor-pointer' />
+                            <label htmlFor="" >{item.taskWorkName}</label>
+
                         </div>
-                        <span className='text-xs cursor-pointer hover:bg-[#cbcacaad] p-2 px-4 rounded-md' onClick={()=>{handleDeleteWork(item.taskWorkId)}}>Xóa</span>
+                        <span className='text-xs cursor-pointer hover:bg-[#cbcacaad] p-2 px-4 rounded-md' onClick={() => { handleDeleteWork(item.taskWorkId) }}>Xóa</span>
                     </div>
                 )
             }) : null}

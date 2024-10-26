@@ -24,8 +24,6 @@ function ColumnSpace({ idSpace, nameSpace }: workSpaceTemplate) {
   const cc = sessionStorage.getItem("currentUser");
   const currentUser = JSON.parse(cc + "")
 
-  console.log("idSpace ", idSpace);
-
 
   const [listColumns, setListColumns] = useState<IColumnItem[]>([]);
   const [curentColumn, setCurrentColumn] = useState<string>("");

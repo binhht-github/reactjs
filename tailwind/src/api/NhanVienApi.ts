@@ -24,15 +24,6 @@ export const getNhanVienByPage = async (page: number, length: number) => {
 }
 
 export const createNewNhanVien = async (hoTen: string, cccd: string, email: string, gioiTinh: string, anh: string, sdt: string, diaChi: string, pbid: string, cvid: string, ngaySinh: string) => {
-    // console.log(ngaySinh + " - " +
-    //     email + " - " +
-    //     gioiTinh + " - " +
-    //     pbid + " - " +
-    //     cvid + " - " +
-    //     diaChi
-    // );
-
-
     try {
         const result = await request().post(APIs.N_CREATE, {
             hoTen: hoTen,
@@ -54,8 +45,8 @@ export const createNewNhanVien = async (hoTen: string, cccd: string, email: stri
             deleted: false,
             creator: "admin",
         })
-        const { data } = result
-        return data;
+
+        return result;
     } catch (e) {
         return handleError(e)
     }
@@ -112,8 +103,7 @@ export const updateNhanVien = async (maNhanVien: string, hoTen: string, cccd: st
             deleted: false,
             creator: "admin",
         })
-        const { data } = result
-        return data;
+        return result;
     } catch (e) {
         return handleError(e)
     }
@@ -123,8 +113,7 @@ export const updateNhanVien = async (maNhanVien: string, hoTen: string, cccd: st
 export const deleteNhanVien = async (maNhanVien: string) => {
     try {
         const result = await request().post(`${APIs.N_DELETE}`, { maNhanVien: maNhanVien })
-        const { data } = result
-        return data;
+        return result;
     } catch (e) {
         return handleError(e)
     }
@@ -135,6 +124,14 @@ export const getAllNhanVienByProject = async (projectId: string) => {
         const result = await request().get(`${APIs.N_GETBYPROJECT}?prpject-id=${projectId}`)
         const { data } = result
         return data;
+    } catch (e) {
+        return handleError(e)
+    }
+}
+export const getAllNhanVienNotProject = async (projectId: number) => {
+    try {
+        const result = await request().get(`${APIs.N_GETNOTPROJECT}?prpject-id=${projectId}`)
+        return result;
     } catch (e) {
         return handleError(e)
     }

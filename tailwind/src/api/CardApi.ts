@@ -5,16 +5,9 @@ import request from "./request";
 
 export const getCardByColumnId = async (columnID: number) => {
     try {
-        console.log("call api ", columnID);
-
         const result = await request().get(`${APIs.C_GETALLBYCOLUMNID}?column-id=${columnID}`)
         const { data } = result
-        console.log("data ", data);
         return data;
-        // return {
-        //     success: true,
-        //     data,
-        // }
     } catch (e) {
         return handleError(e)
     }
@@ -29,7 +22,6 @@ export const createNewCard = async (columEntity: object, cardName: string, creat
             createUser: createUser
         })
         const { data } = result
-        console.log("aaaa ", data);
         return data;
     } catch (e) {
         return handleError(e)

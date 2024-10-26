@@ -28,3 +28,12 @@ export const createProject = async (projectName: string, maNhanVien: string) => 
         return handleError(e)
     }
 }
+export const addNhanVien = async (projectID: number, nhanviens: { maNhanVien: string }[]) => {
+    try {
+        const result = await request().post(`${APIs.P_ADDUSER}`, { projectId: projectID, nhanviens: nhanviens })
+        const { data } = result
+        return result;
+    } catch (e) {
+        return handleError(e)
+    }
+}
