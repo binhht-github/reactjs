@@ -1,13 +1,14 @@
-import React, { useRef, useState } from 'react';
+import React, { ReactNode, useRef, useState } from 'react';
 import Parser from 'html-react-parser';
 import * as ReactDOMServer from 'react-dom/server';
-
+import Answer from './Answer';
+const convertID = ["A", "B", "C", "D", "E", "F"];
 
 interface IQuestions {
     id: number,
     cauhoi: string,
     dapan: IResult[],
-    daChon: number,
+    daChon: number | null,
     dapandung: number,
     code: string,
     type: string
@@ -16,70 +17,59 @@ interface IResult {
     id: number,
     dapan: string
 }
-{/* <span className='rounded-full border-2 border-black absolute size-full -left-[20%] top-[1%] px-2' /> */ }
-const convertID = ["A", "B", "C", "D", "E", "F"];
+
 let questionIndex = 0;
 function Questions(props: any) {
     const [questions, setQuestions] = useState<IQuestions[]>(questionsArray)
-    const selectQuestions = (event: any, selectQuestions: number, questionNumber: number) => {
-        console.log("Cay hoi id: ", questionNumber, " Dap an da chon: ", convertID[selectQuestions - 1]);
-        console.log(event);
+    const selectAnswer = (answer: number, questionsID: number) => {
+        const index = questions.findIndex(item => item.id == questionsID)
+        const newArr = [...questions]
+        newArr[index] = {
+            id: newArr[index].id,
+            cauhoi: newArr[index].cauhoi,
+            dapan: newArr[index].dapan,
+            daChon: answer,
+            dapandung: newArr[index].dapandung,
+            code: newArr[index].code,
+            type: newArr[index].type
+        }
+        setQuestions([...newArr])
 
     }
-
-    // const targetRef = useRef<HTMLDivElement>(null);
-    // const [isClicked, setIsClicked] = useState(false);
-
-    // const handleClick = (e: any) => {
-    //     setIsClicked(true);
-    //     console.log(targetRef);
-
-    //     if (targetRef.current) {
-    //         // targetRef.current.innerHTML = "<span className='rounded-full border-2 border-black absolute size-full -left-[20%] top-[1%] px-2' >123qwe</span> ";
-    //     }
-    // };
 
     return (
         <>
             {questions.map((item, index) => {
                 if (item.type == "NoLable" && item.code == props.topic.type) {
-                    questionIndex++;
+                    questionIndex++
+                    console.log(questionIndex, " ", questions.length);
+
                     return <div key={item.id} className='grid grid-cols-result w-full '>
                         <span className=''>{questionIndex}.</span>
-                        {item.dapan.map((i, idx) => {
-                            return <>
-                                <div><span className='cursor-pointer' onClick={(e) => { selectQuestions(e, i.id, item.id) }} ><strong className='relative'>{convertID[idx]} </strong>. {Parser(i.dapan)}</span></div>
-                            </>
-                        })}
-
+                        <Answer list={item.dapan} questionID={item.id} selectAnswer={selectAnswer}></Answer>
                     </div>
 
                 }
                 if (item.type == "Lable" && item.code == props.topic.type) {
-                    questionIndex++;
+                    questionIndex++
                     return <div key={item.id} className='py-1'>
                         <div className='flex'>
                             <div>
                                 <span className=''>{questionIndex}. </span>
                             </div>
                             <div className='ml-3'>
-                                <span  >
+                                <div  >
                                     {item.cauhoi.split("-").length > 1
                                         ?
-                                        item.cauhoi.split("-").map((itemSplit, indexSplit) => { return <>{indexSplit > 0 ? "-" : ""} {itemSplit} <br /></> })
+                                        item.cauhoi.split("-").map((itemSplit, indexSplit) => { return <span key={indexSplit}>{indexSplit > 0 ? "-" : ""} {itemSplit} <br /></span> })
                                         :
                                         item.cauhoi}
-                                </span>
+                                </div>
                             </div>
                         </div>
                         <div className='grid grid-cols-4 w-[calc(100%-20px)] ml-5'>
-                            {item.dapan.map((i, idx) => {
-                                return <>
-                                    <div><span className='cursor-pointer' onClick={(e) => { selectQuestions(e, i.id, item.id) }} ><strong>{convertID[idx]}</strong>. {i.dapan}</span></div>
 
-                                </>
-                            })}
-
+                            <Answer list={item.dapan} questionID={item.id} selectAnswer={selectAnswer} />
                         </div>
                     </div>
                 }
@@ -110,7 +100,7 @@ const questionsArray = [
                 dapan: "leap<u><b>ed</b></u>"
             }
         ],
-        daChon: 1,
+        daChon: null,
         dapandung: 1,
         code: "NA-1",
         type: "NoLable"
@@ -137,7 +127,7 @@ const questionsArray = [
                 dapan: "d<u><b>e</b></u>sptie"
             }
         ],
-        daChon: 1,
+        daChon: null,
         dapandung: 2,
         code: "NA-1",
         type: "NoLable"
@@ -164,7 +154,7 @@ const questionsArray = [
                 dapan: "sig<u><b>ed</b></u>"
             }
         ],
-        daChon: 1,
+        daChon: null,
         dapandung: 1,
         code: "NA-1",
         type: "NoLable"
@@ -191,7 +181,7 @@ const questionsArray = [
                 dapan: "p<u><b>ea</b></u>ce"
             }
         ],
-        daChon: 1,
+        daChon: null,
         dapandung: 1,
         code: "NA-1",
         type: "NoLable"
@@ -218,7 +208,7 @@ const questionsArray = [
                 dapan: " Five hourrs ago"
             }
         ],
-        daChon: 1,
+        daChon: null,
         dapandung: 1,
         code: "NP-1",
         type: "Lable"
@@ -245,7 +235,7 @@ const questionsArray = [
                 dapan: "is she"
             }
         ],
-        daChon: 1,
+        daChon: null,
         dapandung: 1,
         code: "NP-1",
         type: "Lable"
@@ -272,7 +262,7 @@ const questionsArray = [
                 dapan: "have been playing"
             }
         ],
-        daChon: 1,
+        daChon: null,
         dapandung: 1,
         code: "NP-1",
         type: "Lable"
@@ -299,7 +289,7 @@ const questionsArray = [
                 dapan: "have been playing"
             }
         ],
-        daChon: 1,
+        daChon: null,
         dapandung: 1,
         code: "HTDV",
         type: "NoLable"
@@ -325,7 +315,7 @@ const questionsArray = [
                 dapan: "have been playing"
             }
         ],
-        daChon: 1,
+        daChon: null,
         dapandung: 1,
         code: "HTDV",
         type: "NoLable"
@@ -351,7 +341,7 @@ const questionsArray = [
                 dapan: "have been playing"
             }
         ],
-        daChon: 1,
+        daChon: null,
         dapandung: 1,
         code: "HTDV",
         type: "NoLable"
@@ -377,7 +367,7 @@ const questionsArray = [
                 dapan: "have been playing"
             }
         ],
-        daChon: 1,
+        daChon: null,
         dapandung: 1,
         code: "HTDV",
         type: "NoLable"
@@ -403,7 +393,7 @@ const questionsArray = [
                 dapan: "have been playing"
             }
         ],
-        daChon: 1,
+        daChon: null,
         dapandung: 1,
         code: "HTDV",
         type: "NoLable"
@@ -429,7 +419,7 @@ const questionsArray = [
                 dapan: "have been playing"
             }
         ],
-        daChon: 1,
+        daChon: null,
         dapandung: 1,
         code: "NP-1",
         type: "Lable"
@@ -455,7 +445,7 @@ const questionsArray = [
                 dapan: "have been playing"
             }
         ],
-        daChon: 1,
+        daChon: null,
         dapandung: 1,
         code: "NP-1",
         type: "Lable"
@@ -481,7 +471,7 @@ const questionsArray = [
                 dapan: "have been playing"
             }
         ],
-        daChon: 1,
+        daChon: null,
         dapandung: 1,
         code: "NP-1",
         type: "Lable"
@@ -507,7 +497,7 @@ const questionsArray = [
                 dapan: "have been playing"
             }
         ],
-        daChon: 1,
+        daChon: null,
         dapandung: 1,
         code: "NP-1",
         type: "Lable"
@@ -533,7 +523,7 @@ const questionsArray = [
                 dapan: "have been playing"
             }
         ],
-        daChon: 1,
+        daChon: null,
         dapandung: 1,
         code: "NP-1",
         type: "Lable"
@@ -559,7 +549,7 @@ const questionsArray = [
                 dapan: "have been playing"
             }
         ],
-        daChon: 1,
+        daChon: null,
         dapandung: 1,
         code: "NP-1",
         type: "Lable"
@@ -585,7 +575,7 @@ const questionsArray = [
                 dapan: "have been playing"
             }
         ],
-        daChon: 1,
+        daChon: null,
         dapandung: 1,
         code: "NP-1",
         type: "Lable"
@@ -611,7 +601,7 @@ const questionsArray = [
                 dapan: "have been playing"
             }
         ],
-        daChon: 1,
+        daChon: null,
         dapandung: 1,
         code: "NP-1",
         type: "Lable"
@@ -637,7 +627,7 @@ const questionsArray = [
                 dapan: "have been playing"
             }
         ],
-        daChon: 1,
+        daChon: null,
         dapandung: 1,
         code: "NP-1",
         type: "Lable"

@@ -12,11 +12,12 @@ interface ITypeTopic {
     type: string,
     name: string
 }
-function Topic() {
-    const [questionType, setQuestionType] = useState<ITopic[]>(topicArray)
+let a = 0
+function Topic(props: any) {
+    const [topics, setTopics] = useState<ITopic[]>(topicArray)
     return (
         <>
-            {questionType.map((item, index) => {
+            {topics.map((item, index) => {
                 return <div key={index}>
                     <div className='w-full h-fit'>
                         <div className='w-full '>
