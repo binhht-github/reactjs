@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Parser from 'html-react-parser';
-import Topic from './Topic';
+import Topics from './Topics';
 
 
 {/*
@@ -30,7 +30,7 @@ function Example() {
                     </div>
                     <span className='w-[80%] mx-auto my-4 h-[1px] bg-black block'></span>
 
-                    <Topic></Topic>
+                    <Topics></Topics>
                     <div className='w-full hidden'>
                         {/* phat am questions */}
                         <div className='w-full h-fit'>

@@ -1,14 +1,11 @@
-import React, { ReactNode, useRef, useState } from 'react';
-import Parser from 'html-react-parser';
-import * as ReactDOMServer from 'react-dom/server';
-import Answer from './Answer';
-const convertID = ["A", "B", "C", "D", "E", "F"];
+import React, { useEffect, memo, useState } from 'react';
+
+import Answers from './Answers';
 
 interface IQuestions {
     id: number,
     cauhoi: string,
     dapan: IResult[],
-    daChon: number | null,
     dapandung: number,
     code: string,
     type: string
@@ -17,40 +14,47 @@ interface IResult {
     id: number,
     dapan: string
 }
+interface ISelectAnswer {
+    answer: number,
+    question: number
+}
 
 let questionIndex = 0;
 function Questions(props: any) {
-    const [questions, setQuestions] = useState<IQuestions[]>(questionsArray)
-    const selectAnswer = (answer: number, questionsID: number) => {
-        const index = questions.findIndex(item => item.id == questionsID)
-        const newArr = [...questions]
-        newArr[index] = {
-            id: newArr[index].id,
-            cauhoi: newArr[index].cauhoi,
-            dapan: newArr[index].dapan,
-            daChon: answer,
-            dapandung: newArr[index].dapandung,
-            code: newArr[index].code,
-            type: newArr[index].type
-        }
-        setQuestions([...newArr])
+    console.log("re-render Question");
 
+    const [questions, setQuestions] = useState<IQuestions[]>([])
+
+    useEffect(() => {
+        setTimeout(() => {
+            setQuestions([...questions, ...questionsArray.filter(item => item.code == props.topic.type)])
+        }, 1000);
+
+
+    }, [props.topic])
+
+    // const selectAnswer = useCallback((answer: number, questionsID: number) => {
+    //     props.setAnswer([...props.answers, { answer: answer, question: questionsID }])
+
+    // }, [])
+    const handleSelectAnswer = (answer: number, questionsID: number) => {
+        props.onSelectAnswer({ answer: answer, question: questionsID })
     }
 
     return (
         <>
-            {questions.map((item, index) => {
-                if (item.type == "NoLable" && item.code == props.topic.type) {
-                    questionIndex++
-                    console.log(questionIndex, " ", questions.length);
 
+            {questions.map((item, index) => {
+                if (item.cauhoi.length == 0 && item.code == props.topic.type) {
+                    questionIndex++
                     return <div key={item.id} className='grid grid-cols-result w-full '>
+
                         <span className=''>{questionIndex}.</span>
-                        <Answer list={item.dapan} questionID={item.id} selectAnswer={selectAnswer}></Answer>
+                        <Answers list={item.dapan} questionID={item.id} onSelectAnswer={handleSelectAnswer}></Answers>
                     </div>
 
                 }
-                if (item.type == "Lable" && item.code == props.topic.type) {
+                if (item.cauhoi.length > 0 && item.code == props.topic.type) {
                     questionIndex++
                     return <div key={item.id} className='py-1'>
                         <div className='flex'>
@@ -69,7 +73,7 @@ function Questions(props: any) {
                         </div>
                         <div className='grid grid-cols-4 w-[calc(100%-20px)] ml-5'>
 
-                            <Answer list={item.dapan} questionID={item.id} selectAnswer={selectAnswer} />
+                            <Answers list={item.dapan} questionID={item.id} onSelectAnswer={handleSelectAnswer} />
                         </div>
                     </div>
                 }
@@ -77,6 +81,14 @@ function Questions(props: any) {
         </>
     );
 }
+
+const SomeComponent = memo((props: any) => {
+    return <span className=''>{props.item}.</span>
+});
+
+
+// export default Questions;
+export default memo(Questions);
 
 const questionsArray = [
     {
@@ -100,7 +112,6 @@ const questionsArray = [
                 dapan: "leap<u><b>ed</b></u>"
             }
         ],
-        daChon: null,
         dapandung: 1,
         code: "NA-1",
         type: "NoLable"
@@ -127,7 +138,6 @@ const questionsArray = [
                 dapan: "d<u><b>e</b></u>sptie"
             }
         ],
-        daChon: null,
         dapandung: 2,
         code: "NA-1",
         type: "NoLable"
@@ -154,7 +164,6 @@ const questionsArray = [
                 dapan: "sig<u><b>ed</b></u>"
             }
         ],
-        daChon: null,
         dapandung: 1,
         code: "NA-1",
         type: "NoLable"
@@ -181,7 +190,6 @@ const questionsArray = [
                 dapan: "p<u><b>ea</b></u>ce"
             }
         ],
-        daChon: null,
         dapandung: 1,
         code: "NA-1",
         type: "NoLable"
@@ -208,7 +216,6 @@ const questionsArray = [
                 dapan: " Five hourrs ago"
             }
         ],
-        daChon: null,
         dapandung: 1,
         code: "NP-1",
         type: "Lable"
@@ -235,7 +242,6 @@ const questionsArray = [
                 dapan: "is she"
             }
         ],
-        daChon: null,
         dapandung: 1,
         code: "NP-1",
         type: "Lable"
@@ -262,7 +268,6 @@ const questionsArray = [
                 dapan: "have been playing"
             }
         ],
-        daChon: null,
         dapandung: 1,
         code: "NP-1",
         type: "Lable"
@@ -289,7 +294,6 @@ const questionsArray = [
                 dapan: "have been playing"
             }
         ],
-        daChon: null,
         dapandung: 1,
         code: "HTDV",
         type: "NoLable"
@@ -315,7 +319,6 @@ const questionsArray = [
                 dapan: "have been playing"
             }
         ],
-        daChon: null,
         dapandung: 1,
         code: "HTDV",
         type: "NoLable"
@@ -341,7 +344,6 @@ const questionsArray = [
                 dapan: "have been playing"
             }
         ],
-        daChon: null,
         dapandung: 1,
         code: "HTDV",
         type: "NoLable"
@@ -367,7 +369,6 @@ const questionsArray = [
                 dapan: "have been playing"
             }
         ],
-        daChon: null,
         dapandung: 1,
         code: "HTDV",
         type: "NoLable"
@@ -393,7 +394,6 @@ const questionsArray = [
                 dapan: "have been playing"
             }
         ],
-        daChon: null,
         dapandung: 1,
         code: "HTDV",
         type: "NoLable"
@@ -419,7 +419,6 @@ const questionsArray = [
                 dapan: "have been playing"
             }
         ],
-        daChon: null,
         dapandung: 1,
         code: "NP-1",
         type: "Lable"
@@ -445,7 +444,6 @@ const questionsArray = [
                 dapan: "have been playing"
             }
         ],
-        daChon: null,
         dapandung: 1,
         code: "NP-1",
         type: "Lable"
@@ -471,7 +469,6 @@ const questionsArray = [
                 dapan: "have been playing"
             }
         ],
-        daChon: null,
         dapandung: 1,
         code: "NP-1",
         type: "Lable"
@@ -497,7 +494,6 @@ const questionsArray = [
                 dapan: "have been playing"
             }
         ],
-        daChon: null,
         dapandung: 1,
         code: "NP-1",
         type: "Lable"
@@ -523,7 +519,6 @@ const questionsArray = [
                 dapan: "have been playing"
             }
         ],
-        daChon: null,
         dapandung: 1,
         code: "NP-1",
         type: "Lable"
@@ -549,7 +544,6 @@ const questionsArray = [
                 dapan: "have been playing"
             }
         ],
-        daChon: null,
         dapandung: 1,
         code: "NP-1",
         type: "Lable"
@@ -575,7 +569,6 @@ const questionsArray = [
                 dapan: "have been playing"
             }
         ],
-        daChon: null,
         dapandung: 1,
         code: "NP-1",
         type: "Lable"
@@ -601,7 +594,6 @@ const questionsArray = [
                 dapan: "have been playing"
             }
         ],
-        daChon: null,
         dapandung: 1,
         code: "NP-1",
         type: "Lable"
@@ -627,11 +619,9 @@ const questionsArray = [
                 dapan: "have been playing"
             }
         ],
-        daChon: null,
         dapandung: 1,
         code: "NP-1",
         type: "Lable"
 
     },
 ]
-export default Questions;

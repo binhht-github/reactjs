@@ -7,6 +7,8 @@ interface IAnswer {
     dapan: string
 }
 function Answer(props: any) {
+    console.log("re-render Answer");
+
     const [list, setList] = useState<IAnswer[]>(props.list)
     const [selectAswer, setSelectAnswer] = useState<number | null>(null)
     return (
@@ -16,7 +18,7 @@ function Answer(props: any) {
                     <span className='cursor-pointer' onClick={(e) => {
                         // console.log("Cay hoi id: ", props.questionID, " Dap an da chon: ", convertID[i.id - 1]);;
                         setSelectAnswer(i.id)
-                        props.selectAnswer(i.id, props.questionID)
+                        props.onSelectAnswer(i.id, props.questionID)
                     }} >
                         <strong className='relative'>{convertID[idx]}{selectAswer && selectAswer == i.id ? <span className='rounded-full border-2 border-black absolute size-full -left-[25%] top-[2%] px-2' /> : null} </strong>. {Parser(i.dapan)}
                     </span>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import Parser from 'html-react-parser';
 import Questions from './Questions';
 
@@ -12,18 +12,53 @@ interface ITypeTopic {
     type: string,
     name: string
 }
-let a = 0
+interface ISelectAnswer {
+    answer: number,
+    question: number
+}
+
 function Topic(props: any) {
-    const [topics, setTopics] = useState<ITopic[]>(topicArray)
+    console.log("re-render Topic");
+
+    const [topics, setTopics] = useState<ITopic[]>([topicArray[0], topicArray[4], topicArray[5],])
+    // const [answers, setAnswer] = useState<ISelectAnswer[]>([])
+    // const handleSelectAnswer = useCallback((item: ISelectAnswer) => {
+    //     // answers.push(item)
+    //     setAnswer([item, ...answers])
+    // }, [])
+    // const handleSelectAnswer = (item: ISelectAnswer) => {
+    //     setAnswer([...answers, item])
+    // }
+
+    let answers: ISelectAnswer[] = []
+    const handleSelectAnswer = (item: ISelectAnswer) => {
+
+        const index = answers.findIndex(x => x.question == item.question)
+        console.log(index);
+        if (index < 0) {
+            answers.push(item)
+            return
+        }
+        if (index >= 0) {
+            answers[index] = item
+            return
+        }
+    }
+
     return (
         <>
+            <button onClick={() => {
+                console.log(answers);
+
+            }}>click me!</button>
+
             {topics.map((item, index) => {
                 return <div key={index}>
                     <div className='w-full h-fit'>
                         <div className='w-full '>
                             <label htmlFor="" className='font-bold decoration-'>{item.topic}</label>
                             {item.note.length < 1 ? null : <span className='block py-5'>{Parser(item.note)}</span>}
-                            <Questions topic={item} />
+                            <Questions onSelectAnswer={handleSelectAnswer} topic={item} />
                         </div>
                     </div>
                 </div>
@@ -32,7 +67,7 @@ function Topic(props: any) {
     );
 }
 
-const topicArray = [
+export const topicArray = [
     {
         type: "NA-1", // phat am
         topic: "Mark the letter A, B, C, or D on your answer sheet to indicate the word whose underlined part differs from the other three in pronunciation in each of the following question",

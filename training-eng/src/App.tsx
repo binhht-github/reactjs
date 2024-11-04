@@ -11,22 +11,26 @@ import Example from './component/view/example/Example';
 import Menu from './component/Menu';
 import WordReader from './WordReader';
 import Grammar from './component/view/Grammar';
+import ReadWord from './component/test/ReadWord';
+import DocxToJsonConverter from './component/test/DocxToJsonConverter';
 
 function App() {
   return (
-    <div className='h-screen w-screen relative'>
-      <Routes>
-        <Route path='/' element={<Vocabulary></Vocabulary>}></Route>
-        <Route path='/vocabulary' element={<Vocabulary></Vocabulary>}></Route>
-        <Route path='/reading' element={<Reading></Reading>}></Route>
-        <Route path='/listening' element={<Listening></Listening>}></Route>
-        <Route path='/grammar' element={<Grammar></Grammar>}></Route>
-        <Route path='/example' element={<Example></Example>}></Route>
-      </Routes>
-      <Menu />
-      <NavigationBar></NavigationBar>
-      {/* <WordReader></WordReader> */}
+    <div>
+      <DocxToJsonConverter />
     </div>
+    // <div className='h-screen w-screen relative'>
+    //   <Routes>
+    //     <Route path='/' element={<Vocabulary></Vocabulary>}></Route>
+    //     <Route path='/vocabulary' element={<Vocabulary></Vocabulary>}></Route>
+    //     <Route path='/reading' element={<Reading></Reading>}></Route>
+    //     <Route path='/listening' element={<Listening></Listening>}></Route>
+    //     <Route path='/grammar' element={<Grammar></Grammar>}></Route>
+    //     <Route path='/example' element={<Example></Example>}></Route>
+    //   </Routes>
+    //   <Menu />
+    //   <NavigationBar></NavigationBar>
+    // </div>
   );
 }
 
