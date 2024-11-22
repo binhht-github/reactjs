@@ -14,13 +14,14 @@ module.exports = {
         iconHeadphone: "url('/public/icon/headphone.png')",
         iconReading: "url('/public/icon/reading.png')",
         iconSound: "url('/public/icon/sound.png')",
+        iconTick: "url('/public/icon/tick.png')",
       },
       boxShadow: {
         rounded: "0px 0px 5px 1px rgba(0, 0, 0, 0.7)",
         roundedin: "0px 0px -10px rgba(0, 0, 0, 1)",
       },
       gridTemplateColumns: {
-        result: "25px, 1fr, 1fr, 1fr, 1fr",
+        result: "110px, 1fr, 1fr, 1fr, 1fr",
       },
     },
   },

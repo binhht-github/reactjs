@@ -4,6 +4,7 @@ import Parser from "html-react-parser";
 import { topicArray } from "../view/example/Topics";
 import { ref, set } from "firebase/database";
 import { database } from "../../firebase";
+import { generateRandomId } from "../../utils/GenerateRandomId";
 
 const convertID = ["A", "B", "C", "D", "E", "F"];
 
@@ -37,12 +38,17 @@ const ReadWord = () => {
             /mark the letter A, B, C, or D on your answer sheet /i;
           const regexQuestions = /question/i;
           arrayRemovePTag.map((item, index) => {
-            if (removeHTMLTags(item).search(regexTopic) >= 0) {
-              console.log({
-                type: "Topic",
-                item: item,
-                index: index,
-              });
+            if (
+              removeHTMLTags(item).search(regexTopic) >= 0 ||
+              removeHTMLTags(item).search(
+                /mark the letter A, B, C or D on your answer sheet /i
+              ) >= 0
+            ) {
+              // console.log({
+              //   type: "Topic",
+              //   item: item,
+              //   index: index,
+              // });
 
               indexArrayRemovePTag.push({
                 type: "Topic",
@@ -338,9 +344,7 @@ const ReadWord = () => {
     const regex = /<(\w+)[^>]*>(.*?)<\/\1>/;
     return str.replace(regex, "$2");
   }
-  function generateRandomId() {
-    return Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
-  }
+
   // so sanh theo phan tram % => chua lam
   String.prototype.equiValent = function (str) {
     let percent = 0;
