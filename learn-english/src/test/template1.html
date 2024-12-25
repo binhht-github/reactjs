@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Improved Web Template</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            display: flex;
+            background-color: #F5F5F5;
+            color: #333;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 20%;
+            background: linear-gradient(45deg, #4CAF50, #66BB6A);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .sidebar h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            text-align: center;
+        }
+
+        .menu {
+            list-style: none;
+        }
+
+        .menu-item {
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .menu-item:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .menu-item a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+        }
+
+        .content {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+        }
+
+        .content h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .content p {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+
+        .search-box {
+            display: flex;
+            margin: 20px 0;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px 0 0 8px;
+            font-size: 16px;
+        }
+
+        .search-box button {
+            padding: 10px;
+            border: none;
+            background: #4CAF50;
+            color: white;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .search-box button:hover {
+            background: #45A049;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #777;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <h1>Learn English</h1>
+        <ul class="menu">
+            <li class="menu-item"><a href="#">Vocabulary</a></li>
+            <li class="menu-item"><a href="#">Reading</a></li>
+            <li class="menu-item"><a href="#">Listening</a></li>
+            <li class="menu-item"><a href="#">Grammar</a></li>
+            <li class="menu-item"><a href="#">Examples</a></li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <h2>CV (viết tắt của sơ yếu lý lịch)</h2>
+        <p><strong>Phát âm:</strong> /siːˈviː/ (/kəˈrɪkjʊləm ˈviːtaɪ/)</p>
+
+        <div class="search-box">
+            <input type="text" placeholder="Nhập từ cần tra cứu...">
+            <button>Tìm kiếm</button>
+        </div>
+
+        <p>Giới thiệu Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur, facere exercitationem
+            aliquam repellendus vero voluptatem eaque cupiditate dolor non.</p>
+
+        <p>Ví dụ sử dụng từ trong câu: "He updated his CV before applying for the new job."</p>
+
+        <div class="footer">&copy; 2024 English Learning Platform</div>
+    </div>
+</body>
+
+</html>

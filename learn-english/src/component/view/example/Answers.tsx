@@ -6,7 +6,6 @@ function Answer(props: any) {
     // console.log("re-render Answer");
 
     const [list, setList] = useState<string[]>(props.list)
-    console.log(props.list);
 
     const [selectAswer, setSelectAnswer] = useState<number | null>(null)
 

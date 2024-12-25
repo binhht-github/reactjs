@@ -15,6 +15,7 @@ module.exports = {
         iconReading: "url('/public/icon/reading.png')",
         iconSound: "url('/public/icon/sound.png')",
         iconTick: "url('/public/icon/tick.png')",
+        test: "url('/public/img/image.png')",
       },
       boxShadow: {
         rounded: "0px 0px 5px 1px rgba(0, 0, 0, 0.7)",
@@ -22,6 +23,9 @@ module.exports = {
       },
       gridTemplateColumns: {
         result: "110px, 1fr, 1fr, 1fr, 1fr",
+      },
+      fontFamily: {
+        fontFamily: "Cursive",
       },
     },
   },

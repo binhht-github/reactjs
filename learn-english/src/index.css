@@ -57,3 +57,60 @@
 [contentEditable="true"]:empty:before {
   content: attr(text-placehoder);
 }
+
+.faill {
+  border-color: red !important;
+  box-shadow: 0 0 5px red; /* Optional: Adds a glowing effect */
+}
+.faill-focus {
+  border-color: red;
+  box-shadow: 0 0 5px red; /* Optional: Adds a glowing effect */
+}
+
+.faill-animation {
+  animation: faillAnimation 0.5s ease-in-out;
+}
+
+@keyframes faillAnimation {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-10px);
+  }
+  50% {
+    transform: translateX(10px);
+  }
+  75% {
+    transform: translateX(-10px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+
+  /* 0% {
+    background-color: red;
+    left: 0px;
+    top: 0px;
+  }
+  25% {
+    background-color: yellow;
+    left: 200px;
+    top: 0px;
+  }
+  50% {
+    background-color: blue;
+    left: 200px;
+    top: 200px;
+  }
+  75% {
+    background-color: green;
+    left: 0px;
+    top: 200px;
+  }
+  100% {
+    background-color: red;
+    left: 0px;
+    top: 0px;
+  } */
+}

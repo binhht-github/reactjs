@@ -3,7 +3,8 @@ import Parser from 'html-react-parser';
 import Questions from './Questions';
 import { equalTo, onValue, orderByChild, query, ref } from 'firebase/database';
 import { database } from '../../../firebase';
-import { IQuestions, ISelectAnswer, ITopic } from '../../Interface/Interfaces';
+import { IQuestions, ISelectAnswer, ITopic } from '../../../Interface/Interfaces';
+import { getQuestionByTopicID } from '../../../api/QuestionsApi';
 
 
 
@@ -12,26 +13,14 @@ function Topic(props: any) {
     const [questions, setQuestions] = useState<IQuestions[]>([])
 
     useEffect(() => {
-        const dbRef2 = ref(database, `Questions`);
-        onValue(query(dbRef2, orderByChild('topic'), equalTo(`${props.topicItem.id}`)), (snapshot) => {
-            const result: IQuestions[] = []
-            snapshot.forEach((childSnapshot) => {
-                const childData = childSnapshot.val();
-                result.push({
-                    id: childData.id,
-                    title: childData.title,
-                    answer: childData.answer,
-                    correctAnswer: childData.correctAnswer,
-                    type: childData.type,
-                    topic: childData.topic
-                })
-            });
-            setQuestions(result)
-            // console.log(props.countTotleQuestions(result.length));
+        getQuestionByTopicID(props.topicItem.id)
+            .then((res: any) => {
+                props.countTotleQuestions(res.data.length)
+                setQuestions(res.data)
+            })
+            .catch((e) => {
+            })
 
-        }, {
-            onlyOnce: true
-        });
     }, [props.topicItem])
 
 
@@ -43,7 +32,7 @@ function Topic(props: any) {
                     {!props.topicItem.note ? null : [...props.topicItem.note].map((itemNote, indexNote) => { return <span key={indexNote} className='block py-2 ' {...itemNote.indexOf("<em>(") == 0 ? { style: { textAlign: 'right' } } : null} {...(itemNote.indexOf("<b>") == 0 || itemNote.indexOf("<strong>") == 0) && itemNote.indexOf(" ") >= 1 ? { style: { textAlign: 'center' } } : null}>{Parser(itemNote)} </span> })}
                     {
                         questions.map((questionsItem, questionIndex) => {
-                            return <Questions key={questionIndex} submit={props.submit} questionsItem={questionsItem} topicItem={props.topicItem} handleSelectAnswer={props.handleSelectAnswer} totalQuestions={props.countTotleQuestions(1)} />
+                            return <Questions key={questionIndex} submit={props.submit} questionsItem={questionsItem} topicItem={props.topicItem} handleSelectAnswer={props.handleSelectAnswer} />
                         })
                     }
                 </div>

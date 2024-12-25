@@ -2,13 +2,17 @@ export interface IExample {
     id: string,
     createName: string,
     maDeThi: string,
+    createDate: string,
+    index: number
 }
 export interface ITopic {
     id: string,
     type: string, // mã code 
     topic: string,
     note: string[],
-    example: string
+    example: string,
+    createDate: string,
+    index: number
 }
 export interface ITypeTopic {
     type: string,
@@ -20,7 +24,9 @@ export interface IQuestions {
     answer: string[],
     correctAnswer: string,
     type: string,
-    topic: string
+    topic: string,
+    createDate: string,
+    index: number
 }
 
 export interface ISelectAnswer {

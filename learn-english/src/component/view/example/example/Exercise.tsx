@@ -6,9 +6,11 @@ import {
     query,
     ref,
 } from "firebase/database";
-import { IExample, ISelectAnswer, ITopic } from '../../../Interface/Interfaces';
+import { IExample, ISelectAnswer, ITopic } from '../../../../Interface/Interfaces';
 import { database } from '../../../../firebase';
 import Topics from '../Topics';
+import { getTopicByExampleId } from '../../../../api/TopicApi';
+import { getExample } from '../../../../api/ExampleApi';
 function Exercise(props: any) {
 
     const [example, setExample] = useState<IExample | null>(null);
@@ -21,22 +23,19 @@ function Exercise(props: any) {
 
     useEffect(() => {
         if (!submit) {
-            const dbRef = ref(database, "Example");
-            onValue(
-                query(dbRef),
-                (snapshot) => {
-                    if (snapshot.exists()) {
-                        const randomIndex = Math.floor(Math.random() * snapshot.size);
-                        const exampleObj = Object.values(snapshot.val())[randomIndex] as IExample
-                        setExample(exampleObj)
-                    }
-                },
-                {
-                    onlyOnce: true,
-                }
-            );
+
+            getExample().then((res: any) => {
+                const randomIndex = Math.floor(Math.random() * res.data.length);
+                const exampleObj = res.data[randomIndex]
+
+                setExample(exampleObj)
+            })
+                .catch((error: any) => {
+                    console.log(error);
+                })
         }
     }, [submit]);
+
 
     const handleSubmit = () => {
         let selectCorrectAnser: number = 0;
@@ -53,22 +52,13 @@ function Exercise(props: any) {
 
     const handleTest = () => {
         setTest(true)
-        const dbRef2 = ref(database, 'Topic');
-        onValue(query(dbRef2, orderByChild('example'), equalTo(`${example!.id}`)), (snapshot) => {
-            if (snapshot.exists()) {
-                const result: ITopic[] = []
-                snapshot.forEach((childSnapshot) => {
-                    const childKey = childSnapshot.key;
-                    const childData = childSnapshot.val();
-                    result.push(childData)
-                });
-                setTopics(result)
-                console.log("here ", result);
-
-            }
-        }, {
-            onlyOnce: true
-        });
+        getTopicByExampleId(example!.id)
+            .then((res: any) => {
+                setTopics(res.data)
+            })
+            .catch((e) => {
+                console.log(e);
+            })
     }
 
     const countTotleQuestions = (totle: number) => {
@@ -89,9 +79,9 @@ function Exercise(props: any) {
     const [indexTest, setIndexTest] = useState<number>(1)
 
     return (
-        <div className="container_custom h-full overflow-y-auto  no-scrollbar py-5">
+        <div className="container_custom h-full overflow-y-auto  no-scrollbar py-5 shadow-xl shadow-gray-400">
 
-            <div className="w-full h-fit min-h-[1000px]  p-20 bg-white">
+            <div className="w-full h-fit min-h-[1000px]  p-20 bg-white ">
                 <div className="flex w-full h-fit">
                     <div className="w-1/3  flex flex-col items-center ">
                         <div className='border flex items-center justify-center flex-col border-black h-full w-28'>

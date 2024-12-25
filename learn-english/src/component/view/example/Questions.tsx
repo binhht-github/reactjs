@@ -3,16 +3,9 @@ import Parser from 'html-react-parser';
 import Answers from './Answers';
 import { equalTo, onValue, orderByChild, query, ref } from 'firebase/database';
 import { database } from '../../../firebase';
-import { IQuestions } from '../../Interface/Interfaces';
+import { IQuestions } from '../../../Interface/Interfaces';
 
-let index = 0
 function Questions(props: any) {
-    // console.log("re-render Questions");
-
-    if (index >= props.totalQuestions) {
-        index = 0
-    }
-    index++
 
     const [questions, setQuestions] = useState<IQuestions>(props.questionsItem)
 
@@ -27,13 +20,13 @@ function Questions(props: any) {
             {questions.title.length <= 0 && questions.type == props.topicItem.type ?
                 <div className='grid grid-cols-result w-full '>
 
-                    <span className='min-w-24 font-bold'>Questions {index}.</span>
+                    <span className='min-w-24 font-bold'>Questions {questions.index + 1}.</span>
                     <Answers submit={props.submit} list={questions.answer} questionID={questions.id} handleSelectAnswer={handleSelectAnswer} correctAnswer={questions.correctAnswer}></Answers>
                 </div>
                 : <div key={questions.id} className='py-1'>
                     <div className='flex min-w-[100px]'>
                         <div className=' min-w-[110px] h-fit'>
-                            <span className='min-w-24 font-bold block'>Questions {index}.</span>
+                            <span className='min-w-24 font-bold block'>Questions {questions.index + 1}.</span>
                         </div>
                         <div className='ml-1  h-fit'>
                             <div  >

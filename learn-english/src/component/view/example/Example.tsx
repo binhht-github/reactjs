@@ -5,9 +5,9 @@ import ImportExample from "./example/ImportExample";
 
 
 function Example() {
-    const [menu, setMenu] = useState<boolean>(false);
+    const [menu, setMenu] = useState<boolean>(true);
     return (
-        <div className="w-full h-[90%] bg-gray-200 flex flex-col justify-center items-center ">
+        <div className="w-full flex-1 h-full bg-gray-50 flex flex-col justify-center items-center ">
             {menu ? (
                 <Exercise />
             ) : (

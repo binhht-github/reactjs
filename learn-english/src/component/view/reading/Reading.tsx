@@ -2,7 +2,7 @@ import React from 'react';
 
 function Reading() {
     return (
-        <div className='w-full h-[90%] bg-gray-200 flex flex-col  justify-center items-center'>
+        <div className="w-full flex-1 p-10 bg-white border-l-4 border-teal-500 rounded-lg m-5 shadow-xl border">
             <h1>reading</h1>
         </div>
     );

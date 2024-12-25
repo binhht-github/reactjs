@@ -1,32 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { NavigationRouter } from '../router';
+import { useNavigate } from 'react-router-dom';
 
 function Hearder() {
+    const [navigationIndex, setNavigationIndex] = useState<Number>(0);
+    const navigate = useNavigate();
     return (
-        <div className='flex justify-center items-center size-full '>
-            {/* <div className='border border-black rounded-lg h-full w-28 flex flex-col items-center bg-[#b82afa]'>
-                <div className='h-[66%] w-full bg-black  bg-no-repeat bg-contain bg-contact3d' >
-
-                </div>
-                <div>
-                    <label htmlFor="">Vocabulary</label>
-                </div>
-
-            </div> */}
-            {/* <div className='cursor-pointer rounded-full size-16 bg-white shadow-rounded flex justify-center items-center'>
-                <div className='flex justify-center items-center rounded-full size-14 gradientCicle from-teal-400 to-blue-500 border shadow-rounded  border-black'>
-                    <div className='bg-white size-8 rounded-full flex justify-center items-center'>
-                        <svg className=' translate-x-1' width="25px" height="25px" version="1.1" viewBox="0 0 13 14"  >
-                            <g fill="none" fill-rule="evenodd" id="Page-1" stroke="none" stroke-width="1">
-                                <g fill="#000000" id="Icons-AV" transform="translate(-88.000000, -88.000000)">
-                                    <g id="play-arrow" transform="translate(88.500000, 88.000000)">
-                                        <path d="M0,0 L0,14 L11,7 L0,0 Z" id="Shape"></path>
-                                    </g>
-                                </g>
-                            </g>
-                        </svg>
+        <div className='w-full h-12 bg-[#2ea4c9] flex justify-between items-center'>
+            <div className='w-1/6 text-center font-fontFamily text-white font-bold text-4xl cursor-pointer'
+                onClick={() => { navigate(`/`); setNavigationIndex(0) }}
+            >English</div>
+            <div className='w-4/6 font-fontFamily flex justify-center'>
+                <ul className=" flex justify-center relative w-fit ">
+                    {NavigationRouter.map((item, index) => (
+                        <li
+                            key={item.title}
+                            onClick={() => { navigate(`${item.router}`); setNavigationIndex(index) }}
+                            className="min-w-24 text-center mx-1 px-2 cursor-pointer transform transition duration-300 hover:bg-yellow-400 hover:scale-105"
+                        >
+                            <span className="text-white  text-center" >
+                                {item.title}
+                            </span>
+                        </li>
+                    ))}
+                    <span className='bg-white h-[1px] w-10 pb-1 absolute -bottom-1 left' style={{ left: `calc((35px + (96px * ${navigationIndex})) + (${navigationIndex} * 8px)) ` }}  ></span>
+                </ul>
+            </div>
+            <div className='w-1/6 text-center'>
+                <div className=' flex w-fit float-right px-5 justify-center items-center'>
+                    <span className='font-fontFamily text-white'>bình hoàng</span>
+                    <div className='size-10  bg-red-600 rounded-full ml-3'>
+                        <img className='size-full rounded-full' src="https://i.pinimg.com/236x/cd/cb/0c/cdcb0cb30bc700c53f12eff840156b29.jpg" alt="" />
                     </div>
                 </div>
-            </div> */}
+            </div>
         </div>
     );
 }
