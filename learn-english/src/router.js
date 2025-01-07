@@ -8,6 +8,10 @@ export const NavigationRouter = [
     title: "Reading",
   },
   {
+    router: "speacking",
+    title: "Speacking",
+  },
+  {
     router: "listening",
     title: "Listening",
   },
@@ -16,7 +20,7 @@ export const NavigationRouter = [
     title: "Grammar",
   },
   {
-    router: "examples",
-    title: "Examples",
+    router: "quizizz",
+    title: "Quizizz",
   },
 ];

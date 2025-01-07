@@ -1,50 +1,20 @@
 import React, { useEffect, useRef } from 'react';
 import './App.css';
 import Vocabulary from './component/view/Vocabulary/Vocabulary';
-import NavigationBar from './component/NavigationBar';
 import { Route, Routes } from 'react-router-dom';
 import Reading from './component/view/reading/Reading';
-import Example from './component/view/example/Example';
-import Menu from './component/Menu';
 import Grammar from './component/view/grammar/Grammar';
-
 import Listening from './component/view/listening/Listening';
-import AuthForm from './test/AuthForm';
-import Testcom from './test/Testcom';
-import Template from './test/Template';
-import Customer from './component/view/customer/Customer';
 import Hearder from './component/Hearder';
+import Speaking from './component/view/speaking/Speaking';
+import Quizizz from './component/view/example/Quizizz';
 
 
 
 
 function App() {
-
-  // getDataTest()
-  // writeDataTest()
-
-
-  // const handleSaveData = async () => {
-  //   const data = { name: "John Doe", email: "acc1@gmail.com" };
-  //   await saveUserData("qweqwe", "eyJhbGciOiJSUzI1NiIsImtpZCI6IjNmZDA3MmRmYTM4MDU2NzlmMTZmZTQxNzM4YzJhM2FkM2Y5MGIyMTQiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vYXBpLWxlYXJuLWVuZyIsImF1ZCI6ImFwaS1sZWFybi1lbmciLCJhdXRoX3RpbWUiOjE3MzMzODg5MzMsInVzZXJfaWQiOiIxZ2NoWTBBSFZxWnJSV01ZTVdTNlBUQlE1RVMyIiwic3ViIjoiMWdjaFkwQUhWcVpyUldNWU1XUzZQVEJRNUVTMiIsImlhdCI6MTczMzM4ODkzMywiZXhwIjoxNzMzMzkyNTMzLCJlbWFpbCI6ImFjYzFAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImFjYzFAZ21haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.IoWTpAivUBodL4KjC2IF4OD1BkLkaXreAuU1xpgz0ldyESOMDH8SIcb2ga-ccmY2YzILPjfE0GUzFg_BPslVaF1qv85qJkK8mCSVw34j-ZabEPtQ8D1sSAdVUFhm-oQEkWWvXlJoAO9jyossDvyvDqBiATb57ca4YxS_mKR0T6PxcGV2Ry_rolXdNgVHrMph1Wc0tEa4W-Yh1j5Dcub0jZJ9Ka8oRYc8Acd0cAKKiciJc4cGZve3sqIOL-Nj3dHekqB1uF5k1LNmoCBv36yhmhfLOq6Wb7F1PN2mlq5zfdVNteaWNd8lRTFTtp3CvHoOIAHMtI-6kGvyA2RSLlTYKw", data);
-  //   alert("Data Saved!");
-  // };
-  // handleSaveData()
-
-
-  // const audioRef = useRef<HTMLAudioElement | null>(null);
-
-  // // Hàm phát âm thanh khi nhấn nút
-  // const playAudio = () => {
-  //   if (audioRef.current) {
-  //     audioRef.current.play(); // Phát âm thanh
-  //   }
-  // };
-
   return (
     <>
-      {/* <AuthForm></AuthForm> */}
-      {/* <Testcom></Testcom> */}
       <div className='h-screen w-screen relative flex flex-col'>
         <Hearder></Hearder>
         <div className="w-full h-[90%] flex-1 bg-[#ecf0ef]">
@@ -52,24 +22,13 @@ function App() {
             <Route path='/' element={<Vocabulary></Vocabulary>}></Route>
             <Route path='/vocabulary' element={<Vocabulary></Vocabulary>}></Route>
             <Route path='/reading' element={<Reading></Reading>}></Route>
+            <Route path='/speacking' element={<Speaking></Speaking>}></Route>
             <Route path='/listening' element={<Listening></Listening>}></Route>
             <Route path='/grammar' element={<Grammar></Grammar>}></Route>
-            <Route path='/examples' element={<Example></Example>}></Route>
+            <Route path='/quizizz' element={<Quizizz></Quizizz>}></Route>
           </Routes>
         </div>
       </div>
-
-      {/* <Customer></Customer> */}
-
-
-      {/* <Template></Template> */}
-
-      {/* <div>
-        <button onClick={playAudio}>Phát âm thanh</button>
-
-        <audio ref={audioRef} src="/audio/I Need Your Love.mp3" />
-      </div> */}
-
     </>
   );
 }

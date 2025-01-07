@@ -7,17 +7,17 @@ function Listening() {
 
         <div className='w-full h-full bg-[#ecf0ef] relative flex'>
             <div className='absolute w-1/5 h-20 mt-2 bg-[#1285c3] flex items-center justify-center' style={{ borderTopRightRadius: "80px", borderBottomRightRadius: "30px" }}>
-                <h2 className=' font-fontFamily text-4xl text-white'>Listening Practive</h2>
+                <h2 className=' font-fontCursive text-4xl text-white'>Listening</h2>
             </div>
-            <div className='w-1/3 h-full pt-24 flex flex-col items-center'>
-                <div className='h-[90%] w-[70%] overflow-y-auto no-scrollbar'>
+            <div className='w-3/12 h-full pt-24 flex flex-col items-center'>
+                <div className='h-[90%] w-[70%] overflow-y-auto no-scrollbar hidden'>
                     <ul className="space-y-1">
                         {arrVoca.map((item, index) => (
                             <li
                                 key={item.vocabylary}
                                 className="bg-white rounded-sm text-center py-1 cursor-pointer transform transition duration-300 hover:bg-yellow-400 hover:scale-105"
                             >
-                                <span className="font-fontFamily" >
+                                <span className="font-fontCursive" >
                                     {item.vocabylary}
                                 </span>
                             </li>
@@ -26,38 +26,49 @@ function Listening() {
                 </div>
 
             </div>
-            <div className='w-1/3 h-full relative '>
+            <div className='w-6/12 h-full relative '>
                 <div className=" flex flex-col items-center mt-20">
-                    <h2 className=' font-fontFamily text-5xl font-bold '>Listening Practive</h2>
+                    <h2 className=' font-fontCursive text-5xl font-bold '>Listen and answer questions</h2>
                 </div>
                 <div className=" flex flex-col items-center mt-10">
                     <AudioPlayer></AudioPlayer>
                 </div>
                 <div className='p-5 bg-white w-full h-1/2 m-auto mt-6 rounded-tl-2xl rounded-tr-2xl absolute bottom-0'>
-                    <p className=' font-fontFamily text-2xl '>
-                        Title Questions
+                    <p className=' font-fontCursive text-2xl '>
+                        What time does the meeting start?
                     </p>
                     <div className='grid grid-cols-2 gap-x-2 pt-5'>
-                        <div className='w-full h-20 m-1 bg-red-500'>
-                            <div>
-
+                        <div className='w-full h-20 m-1 rounded-lg bg-red-500'>
+                            <div className='w-full h-full flex justify-center items-center font-fontCursive cursor-pointer'>
+                                <span>9:30 AM</span>
                             </div>
                         </div>
-                        <div className=' w-full h-20 m-1 bg-green-500'>
-
+                        <div className=' w-full h-20 m-1 rounded-lg bg-green-500'>
+                            <div className='w-full h-full flex justify-center items-center font-fontCursive cursor-pointer'>
+                                <span>10:00 AM</span>
+                            </div>
                         </div>
-                        <div className='w-full h-20 m-1 bg-blue-500'>
-
+                        <div className='w-full h-20 m-1 rounded-lg bg-blue-500'>
+                            <div className='w-full h-full flex justify-center items-center font-fontCursive cursor-pointer'>
+                                <span>10:30 AM</span>
+                            </div>
                         </div>
-                        <div className='w-full h-20 m-1 bg-yellow-500'>
-
+                        <div className='w-full h-20 m-1 rounded-lg bg-yellow-500'>
+                            <div className='w-full h-full flex justify-center items-center font-fontCursive cursor-pointer'>
+                                <span>11:00 AM</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div className='w-1/3 h-full p-10 '>
-                <div className='bg-white w-full h-1/2 rounded-[50px]'></div>
-                <div className='bg-white w-full h-1/2 rounded-[100px]'></div>
+            <div className='w-3/12 h-full pt-10 pr-10 pl-10'>
+                <div className='w-full h-1/2 flex justify-center items-center'>
+                    <div className='w-[90%] h-[90%] bg-slate-500 rounded-tl-[45%] rounded-tr-[45%] rounded-br-[45%] rounded-bl-[45%] bg-treeBook bg-cover bg-center '></div>
+
+                </div>
+                <div className='bg-white w-full m-auto rounded-[50px] '>
+                    <img src="/img/imgListen.png" alt="" className='w-[98%]' />
+                </div>
             </div>
         </div>
         // <div className='w-full h-full flex-1 bg-gray-50 flex flex-col  justify-center items-center'>

@@ -4,7 +4,7 @@ import ImportExample from "./example/ImportExample";
 
 
 
-function Example() {
+function Quizizz() {
     const [menu, setMenu] = useState<boolean>(true);
     return (
         <div className="w-full flex-1 h-full bg-gray-50 flex flex-col justify-center items-center ">
@@ -25,4 +25,4 @@ function Example() {
 
 
 
-export default Example;
+export default Quizizz;

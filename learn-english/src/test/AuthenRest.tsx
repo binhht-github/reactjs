@@ -14,12 +14,11 @@ export default AuthenRest;
 
 
 
-const API_KEY = "AIzaSyCiWabei03b1hMn_S_Nm4DRmzwkdDo-7eQ";
 
 export const signUp = async (email: string, password: string) => {
     try {
         const response = await axios.post(
-            `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`,
+            `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.API_KEY}`,
             {
                 email,
                 password,
@@ -35,7 +34,7 @@ export const signUp = async (email: string, password: string) => {
 export const signIn = async (email: string, password: string) => {
     try {
         const response = await axios.post(
-            `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API_KEY}`,
+            `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.API_KEY}`,
             {
                 email,
                 password,

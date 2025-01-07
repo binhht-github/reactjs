@@ -15,6 +15,7 @@ module.exports = {
         iconReading: "url('/public/icon/reading.png')",
         iconSound: "url('/public/icon/sound.png')",
         iconTick: "url('/public/icon/tick.png')",
+        treeBook: "url('/public/img/tree-book.png')",
         test: "url('/public/img/image.png')",
       },
       boxShadow: {
@@ -25,7 +26,8 @@ module.exports = {
         result: "110px, 1fr, 1fr, 1fr, 1fr",
       },
       fontFamily: {
-        fontFamily: "Cursive",
+        fontCursive: "Cursive",
+        fontBrushScriptMT: "Brush Script MT",
       },
     },
   },

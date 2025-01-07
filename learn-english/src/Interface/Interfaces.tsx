@@ -28,16 +28,30 @@ export interface IQuestions {
     createDate: string,
     index: number
 }
-
 export interface ISelectAnswer {
     answer: string,
     question: string,
     correctAnswer: string
 }
-// export interface ISelectAnswer {
-//     answer: string,
-//     question: string,
-//     correctAnswer: string
-// }
+export interface IVocabulary {
+    id: number,
+    vocabylary: string,
+    semantics: string,
+    pronounce: string,
+    describe: string,
+    verb: {
+        example: string,
+        verb: string
+    },
+    noun:
+    {
+        example: string,
+        noun: string
+    },
+    adjective: {
+        example: string,
+        adjective: string
+    },
+}
 
 

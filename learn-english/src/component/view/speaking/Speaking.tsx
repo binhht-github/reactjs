@@ -1,11 +1,11 @@
 import React from 'react';
 
-function Reading() {
+function Speaking() {
     return (
         <div className='w-full h-full bg-[#ecf0ef] relative flex'>
 
             <div className=' absolute w-1/5 h-20 mt-2 bg-[#1285c3] flex items-center justify-center' style={{ borderTopRightRadius: "80px", borderBottomRightRadius: "30px" }}>
-                <h2 className=' font-fontCursive text-4xl text-white'>Reading</h2>
+                <h2 className=' font-fontCursive text-4xl text-white'>Speaking</h2>
             </div>
             <div className='w-1/4 h-full flex justify-end items-end '>
                 <div className='w-full h-2/3 bg-gray-400 flex ' style={{ borderTopLeftRadius: "80px", borderTopRightRadius: "80%" }}>
@@ -21,9 +21,7 @@ function Reading() {
                 </div>
             </div>
         </div>
-
     );
 }
 
-export default Reading;
-<h1>reading</h1>
+export default Speaking;

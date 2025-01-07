@@ -73,14 +73,15 @@ const AudioPlayer: React.FC = () => {
             <div className={`bg-[#f5b764] rounded-3xl `}>
                 <div className=' w-full h-16'>
                     <div className='w-full h-16 flex items-center '>
-                        <audio ref={audioRef} src="../audio/I Need Your Love.mp3" />
+                        {/* <audio ref={audioRef} src="../audio/voice_meeting.mp3" /> */}
+                        <audio ref={audioRef} src={"../audio/voice_meeting.mp3"} preload="metadata" />
                         <div className='size-8 w-10  ml-2'>
                             {isPlaying ?
                                 <svg onClick={handlePlayPause} width="100%" height="100%" viewBox="0 0 6 8" version="1.1" xmlns="http://www.w3.org/2000/svg" >
                                     <title>pause [#1006]</title>
                                     <desc>Created with Sketch.</desc>
                                     <defs></defs>
-                                    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <g id="Page-1" stroke="none" fill="none" >
                                         <g id="Dribbble-Light-Preview" transform="translate(-227.000000, -3765.000000)" fill="#000000">
                                             <g id="icons" transform="translate(56.000000, 160.000000)">
                                                 <path d="M172,3605 C171.448,3605 171,3605.448 171,3606 L171,3612 C171,3612.552 171.448,3613 172,3613 C172.552,3613 173,3612.552 173,3612 L173,3606 C173,3605.448 172.552,3605 172,3605 M177,3606 L177,3612 C177,3612.552 176.552,3613 176,3613 C175.448,3613 175,3612.552 175,3612 L175,3606 C175,3605.448 175.448,3605 176,3605 C176.552,3605 177,3605.448 177,3606" id="pause-[#1006]"></path>
@@ -92,7 +93,7 @@ const AudioPlayer: React.FC = () => {
                                 <svg onClick={handlePlayPause} width="100%" height="100%" viewBox="0 0 11 14" version="1.1" xmlns="http://www.w3.org/2000/svg">
                                     <title>play_arrow</title>
                                     <desc>Created with Sketch.</desc>
-                                    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <g id="Icons" stroke="none" fill="none" >
                                         <g id="Rounded" transform="translate(-753.000000, -955.000000)">
                                             <g id="AV" transform="translate(100.000000, 852.000000)">
                                                 <g id="-Round-/-AV-/-play_arrow" transform="translate(646.000000, 98.000000)">
@@ -143,7 +144,7 @@ const AudioPlayer: React.FC = () => {
 
                     </div>
                 </div>
-                <audio ref={audioRef} src={"../audio/I Need Your Love.mp3"} preload="metadata" />
+
             </div>
 
         </>
